@@ -24,7 +24,6 @@ class User {
         $this->age = $age;
     }
 
-    function 
     
 } //put your code here
 

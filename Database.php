@@ -12,5 +12,5 @@
  * @author rieau
  */
 class Database {
-    function 
+
 }
