@@ -12,5 +12,7 @@
  * @author rieau
  */
 class Database {
-
+    //function Crud();
+    //Ecrit et lit depuis disque;
+    //save user() et load user();
 }

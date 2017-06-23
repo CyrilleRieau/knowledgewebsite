@@ -12,18 +12,21 @@
  * @author rieau
  */
 class User {
+
     protected $pseudo;
     protected $bio;
     protected $avatar;
     protected $age;
+    protected $mail;
+    protected $password;
 
-    function __construct($pseudo, $bio, $avatar, $age) {
+    function __construct($pseudo, $bio, $avatar, $age, $mail, $password) {
         $this->pseudo = $pseudo;
         $this->bio = $bio;
         $this->avatar = $avatar;
         $this->age = $age;
+        $this->mail = $mail;
+        $this->password = $password;
     }
 
-    
-} //put your code here
-
+}
