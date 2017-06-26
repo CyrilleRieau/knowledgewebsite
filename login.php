@@ -1,5 +1,5 @@
 <?php
-$file = 'auth.json';
+/*$file = 'auth.json';
 $json = file_get_contents($file);
 $obj = json_decode($json);
 $user=$_POST['user'];
@@ -34,5 +34,6 @@ if ($u->user === $user && $u->password === $mdphach) {
 } else {
     echo 'Nope, not correct.';
 }
-    }
+    }*/
+
 ?>

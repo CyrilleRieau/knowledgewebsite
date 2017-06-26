@@ -13,7 +13,9 @@ and open the template in the editor.
         <?php
         include_once'./Post.php';
         include_once'./User.php';
+        include_once'./creationuser.php';
         include_once'./Database.php';
+
         session_start();
         ?>
 
@@ -46,7 +48,27 @@ and open the template in the editor.
             <input type="submit" value="Send">
         </form>
         <?php
-        
+        if ((isset($_SESSION['pseudo']) || isset($_SESSION['mail'])) && isset($_SESSION['pass'])) {
+            $pass = $_SESSION['pass'];
+            $pseudo = $_SESSION['pseudo'];
+            $mail = $_SESSION['mail'];
+            $avatar = $_SESSION['avatar'];
+            $passhach = md5($pass);
+            $age = $_SESSION['age'];
+            $bio = $_SESSION['bio'];
+            Database::getUser();
+        } else {
+            createUser($_SESSION['pseudo'], $_SESSION['bio'],  $_SESSION['avatar'], $_SESSION['age'] , $_SESSION['mail'], $passhach);
+            $this->user->userCreate();
+            
+        }
+       
+        $_SESSION['pass'] = $pass;
+        $_SESSION['pseudo'] = $pseudo;
+        $_SESSION['mail'] = $mail;
+        $_SESSION['avatar'] = $avatar;
+        $_SESSION['age'] = $age;
+        $_SESSION['bio'] = $bio;
         ?>
     </body>
 </html>
