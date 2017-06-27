@@ -1,5 +1,6 @@
 <?php
 include_once'./User.php';
+include_once'./Database.php';
 
 /* $pseudo = htmlspecialchars($_POST['pseudo']);
   $mail = htmlspecialchars($_POST['mail']);
@@ -15,10 +16,12 @@ include_once'./User.php';
 //if (is_file('./users/' . $user . '.txt')) {
 //  serialize($user);
 //} else {
+var_dump($_POST);
 function createUser() {
-    $user = new User($_POST['pseudo'], $_POST['bio'], $_POST['avatar'], $_POST['age'], $_POST['mail'], md5(htmlspecialchars($_POST['pass'])));
+   return new User($_POST['pseudo'], $_POST['bio'], $_POST['avatar'], $_POST['age'], $_POST['mail'], md5(htmlspecialchars($_POST['pass'])));
 }
 
+Database::userCreate(createUser());
 //serialize et unserialize
 //}
 //}

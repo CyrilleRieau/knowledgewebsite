@@ -28,5 +28,54 @@ class User {
         $this->mail = $mail;
         $this->password = $password;
     }
+    function getPseudo() {
+        return $this->pseudo;
+    }
+
+    function getBio() {
+        return $this->bio;
+    }
+
+    function getAvatar() {
+        return $this->avatar;
+    }
+
+    function getAge() {
+        return $this->age;
+    }
+
+    function getMail() {
+        return $this->mail;
+    }
+
+    function getPassword() {
+        return $this->password;
+    }
+
+    function setPseudo($pseudo) {
+        $this->pseudo = $pseudo;
+    }
+
+    function setBio($bio) {
+        $this->bio = $bio;
+    }
+
+    function setAvatar($avatar) {
+        $this->avatar = $avatar;
+    }
+
+    function setAge($age) {
+        $this->age = $age;
+    }
+
+    function setMail($mail) {
+        $this->mail = $mail;
+    }
+
+    function setPassword($password) {
+        $this->password = $password;
+    }
+
+
 
 }

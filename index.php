@@ -13,7 +13,6 @@ and open the template in the editor.
         <?php
         include_once'./Post.php';
         include_once'./User.php';
-        include_once'./creationuser.php';
         include_once'./Database.php';
 
         session_start();
@@ -42,13 +41,17 @@ and open the template in the editor.
             <label for="coname">Pseudo ou Mail:</label><br>
             <input id="coname" type="text" name="coname" /><br>
             <br>
-            <label for="comail">Mot de Passe :</label><br>
-            <input id="comail" type="text" name="comail" /><br>
-
+            <label for="comdp">Mot de Passe :</label><br>
+            <input id="comdp" type="password" name="comdp" /><br>
             <input type="submit" value="Send">
         </form>
         <?php
-        if ((isset($_SESSION['pseudo']) || isset($_SESSION['mail'])) && isset($_SESSION['pass'])) {
+
+        ?>
+
+<!--
+
+ if ((isset($_SESSION['pseudo']) || isset($_SESSION['mail'])) && isset($_SESSION['pass'])) {
             $pass = $_SESSION['pass'];
             $pseudo = $_SESSION['pseudo'];
             $mail = $_SESSION['mail'];
@@ -69,6 +72,6 @@ and open the template in the editor.
         $_SESSION['avatar'] = $avatar;
         $_SESSION['age'] = $age;
         $_SESSION['bio'] = $bio;
-        ?>
-    </body>
-</html>
+        ?> -->
+            </body>
+        </html>
