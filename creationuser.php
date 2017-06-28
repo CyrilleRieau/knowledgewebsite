@@ -16,7 +16,6 @@ include_once'./Database.php';
 //if (is_file('./users/' . $user . '.txt')) {
 //  serialize($user);
 //} else {
-var_dump($_POST);
 function createUser() {
    return new User($_POST['pseudo'], $_POST['bio'], $_POST['avatar'], $_POST['age'], $_POST['mail'], md5(htmlspecialchars($_POST['pass'])));
 }

@@ -10,23 +10,19 @@
  * Description of Post
  *
  * @author rieau
+ * 
  */
-class Post {
+include_once'./Comment.php';
+
+class Post extends Comment{
     protected $discipline;
     protected $titre;
-    protected $contenu;
-    protected $upvotes;
-    protected $date;
-    protected $auteur;
     protected $tags;
     
-    function __construct($discipline, $titre, $contenu, $upvotes, $date, $auteur, $tags) {
+    public function __construct($contenu, DateTime $date, $auteur, $discipline, $titre, $tags) {
+        parent::__construct($contenu, $date, $auteur);
         $this->discipline = $discipline;
         $this->titre = $titre;
-        $this->contenu = $contenu;
-        $this->upvotes = $upvotes;
-        $this->date = $date;
-        $this->auteur = $auteur;
         $this->tags = $tags;
     }
 

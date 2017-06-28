@@ -26,24 +26,26 @@ class Database {
     public static function userCreate($user) {
 //        if (!is_file('./users/users.txt')) { RAjouter tableau ou donnees seront stockees et serialize ensuite après ajout
 
-
-        $tab = [];
-        if (!is_file('./users/users.txt')) {
-            $file = fopen('./users/users.txt', 'w+');
-            array_push($tab, $user);
-            var_dump($tab);
-            fwrite($file, serialize($tab));
-            fclose($file);
-            echo '<p>Compte créé.</p>';
+        if (!is_dir('./users')) {
+            mkdir('./users');
         } else {
-            $datas = file_get_contents('./users/users.txt');
-            $useruns = unserialize($datas);
-            $file = fopen('./users/users.txt', 'w+');
-            array_push($useruns, $user);
-            var_dump($tab);
-            fwrite($file, serialize($useruns));
-            fclose($file);
-            echo '<p>Compte créé.</p>';
+
+            $tab = [];
+            if (!is_file('./users/users.txt')) {
+                $file = fopen('./users/users.txt', 'w+');
+                array_push($tab, $user);
+                fwrite($file, serialize($tab));
+                fclose($file);
+                echo '<p>Compte créé.</p>';
+            } else {
+                $datas = file_get_contents('./users/users.txt');
+                $useruns = unserialize($datas);
+                $file = fopen('./users/users.txt', 'w+');
+                array_push($useruns, $user);
+                fwrite($file, serialize($useruns));
+                fclose($file);
+                echo '<p>Compte créé.</p>';
+            }
         }
     }
 
@@ -59,5 +61,31 @@ class Database {
           }
           } */
     }
+public static function commentCreate($comment) {
+//        if (!is_file('./users/users.txt')) { RAjouter tableau ou donnees seront stockees et serialize ensuite après ajout
 
-}
+        if (!is_dir('./comment')) {
+            mkdir('./comment');
+        } else {
+            $tab=[];
+            if (!is_file('./comment/'.$_POST['pseudo'].'.txt')) {
+                $file = fopen('./comment/'.$_POST['pseudo'].'.txt', 'w+');
+                array_push($tab, $comment);
+                fwrite($file, serialize($tab));
+                fclose($file);
+                echo '<p>Commentaire créé.</p>';
+            } else {
+                $datas = file_get_contents('./comment/'.$_POST['pseudo'].'.txt');
+                $commentuns = unserialize($datas);
+                $file = fopen('./comment/'.$_POST['pseudo'].'.txt', 'w+');
+                array_push($commentuns, $comment);
+                fwrite($file, serialize($commentuns));
+                fclose($file);
+                echo '<p>Compte créé.</p>';
+            }
+            
+                
+            }
+        }
+    }
+
