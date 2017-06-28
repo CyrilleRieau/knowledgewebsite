@@ -38,7 +38,7 @@ and open the template in the editor.
         </form>
 
         <h1>Connectez-vous </h1>    
-        <form action="login.php" method="POST">
+        <form action="" method="POST">
             <label for="coname">Pseudo ou Mail:</label><br>
             <input id="coname" type="text" name="coname" /><br>
             <br>
@@ -53,11 +53,25 @@ and open the template in the editor.
             <label for="pseudo">Pseudo :</label><br>
             <input id="pseudo" type="text" name="pseudo" /><br>
             <br>
-            <label for="comment">Comment :</label><br>
+            <label for="comment">Commentaire :</label><br>
             <textarea id="comment" name="comment" rows="4" cols="50"></textarea><br>
             <input type="submit" value="Send">
         </form>
 
+        <h1>Créez un post </h1>    
+        <form action="" method="POST">
+            <label for="pseudop">Pseudo :</label><br>
+            <input id="pseudop" type="text" name="pseudop" /><br>
+            <label for="disciplinep">Discipline :</label><br>
+            <input id="disciplinep" type="text" name="disciplinep" /><br>
+            <label for="titrep">Titre :</label><br>
+            <input id="titrep" type="text" name="titrep" /><br>
+            <label for="tagsp">Mots-clés :</label><br>
+            <input id="tagsp" type="text" name="tagsp" /><br>
+            <label for="commentp">Contenu :</label><br>
+            <textarea id="commentp" name="commentp" rows="4" cols="50"></textarea><br>
+            <input type="submit" value="Send">
+        </form>
         <?php
 
         function createComment() {
@@ -71,14 +85,10 @@ and open the template in the editor.
             //$datas = unserialize($comment);
             if (is_file('./comment/' . $comment)) {
                 $datas = file_get_contents('./comment/' . $comment);
-
                 $unseri = unserialize($datas);
-var_dump($unseri);
-                foreach ($unseri as $com) 
-                    {
-              var_dump($com);
-                    echo '<section class=' . basename($comment,".txt") . '<h2>' . basename($comment,".txt") .'</h2>';
-                    echo '<p>' . $com->getContenu() . '</p>';
+                foreach ($unseri as $com) {
+                    echo '<section class=' . basename($comment, ".bin") . '><h2>' . $com->getAuteur() . '</h2>';
+                    echo '<p>' . $com->getContenu() . '</p></section>';
                     //echo '<p>' . $com->Date . '</p></section>';
                     //echo '<form method="post" action="delete-file.php"><input type="hidden" name="fichier" value="' . $file . '"><button>Supprimer</button></form>';
                     //echo '<a href="change-file.php?fichier='
@@ -86,8 +96,62 @@ var_dump($unseri);
                 }
             }
         }
-        //}
-        //}
+
+        function createPost() {
+            return new Post($_POST['commentp'], new DateTime, $_POST['pseudop'], $_POST['disciplinep'], $_POST['titrep'], $_POST['tagsp']);
+        }
+
+        Database::postCreate(createPost());
+
+        $posts = scandir("./posts");
+        foreach ($posts as $post) {
+            //$datas = unserialize($comment);
+            if (is_file('./posts/' . $post)) {
+                $datas = file_get_contents('./posts/' . $post);
+                $unseri = unserialize($datas);
+                foreach ($unseri as $pot) {
+                    echo '<section class=' . basename($post, ".txt") . '><h2>' . $pot->getAuteur() . '</h2>';
+                    echo '<p>' . $pot->getContenu() . '</p></section>';
+                    //echo '<p>' . $com->Date . '</p></section>';
+                    //echo '<form method="post" action="delete-file.php"><input type="hidden" name="fichier" value="' . $file . '"><button>Supprimer</button></form>';
+                    //echo '<a href="change-file.php?fichier='
+                    //.$file.'">Modifier</a>';
+                }
+            }
+        }
+//Modifier Login et Logout pour que fonctionne correctement et le mettre dans Database
+        if (isset($_SESSION['utilisateur'])) {
+            echo 'Bonjour ' . htmlspecialchars($_SESSION['utilisateur']);
+            echo '<form method="POST" action="logout.php"><button>Deconnexion</button></form>';
+        }
+        else {
+          
+            if (!isset($_POST['coname']) || !isset($_POST['comdp'])) {
+                echo 'Utilisateur inexistant.';
+                exit(1);
+            }
+            if ($_POST['coname'] == "" && $_POST['comdp'] == "") {
+                echo 'Utilisateur n\'est pas correct.';
+                exit(1);
+            }
+            $coname = $_POST['coname'];
+            $comdp = md5($_POST['comdp']);
+//Créer une méthode avec 2 arguments qui reprend tout ce qui est en dessous et la mettre dans database pour aviter le sproblemes de boucle
+            if (is_file('./users/users.txt')) {
+                $content = file_get_contents('./users/users.txt');
+                $unsercontent = unserialize($content);
+                foreach ($unsercontent as $user) {
+                    if (($user->getPseudo() == $coname || $user->getMail() == $coname) && $user->getPassword() == $comdp) {
+                        $_SESSION['utilisateur'] = $coname;
+                        echo 'Vous êtes bien connecté '.htmlspecialchars($_SESSION['utilisateur']).'.';
+                        echo '<form method="POST" action="logout.php"><button>Deconnexion</button></form>';
+                        //header('location: index.php');
+                    } else {
+                        echo 'Le mot de passe ou l\'utilisateur/mail n\'est pas bon.';
+                    }
+                }
+            }
+        }
         ?>
 
         <!--

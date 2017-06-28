@@ -25,5 +25,29 @@ class Post extends Comment{
         $this->titre = $titre;
         $this->tags = $tags;
     }
+    function getDiscipline() {
+        return $this->discipline;
+    }
+
+    function getTitre() {
+        return $this->titre;
+    }
+
+    function getTags() {
+        return $this->tags;
+    }
+
+    function setDiscipline($discipline) {
+        $this->discipline = $discipline;
+    }
+
+    function setTitre($titre) {
+        $this->titre = $titre;
+    }
+
+    function setTags($tags) {
+        $this->tags = $tags;
+    }
+
 
 }

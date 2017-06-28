@@ -35,7 +35,7 @@
   echo 'Nope, not correct.';
   }
   } */
-include_once './User.php';
+/*include_once './User.php';
 if (!isset($_POST['coname']) || !isset($_POST['comdp'])) {
     echo 'Utilisateur inexistant.';
     exit(1);
@@ -46,20 +46,26 @@ if ($_POST['coname'] == "" && $_POST['comdp'] == "") {
 }
 $coname = $_POST['coname'];
 $comdp = md5($_POST['comdp']);
+var_dump($comdp);
+var_dump($coname);
 //Créer une méthode avec 2 arguments qui reprend tout ce qui est en dessous et la mettre dans database pour aviter le sproblemes de boucle
 if (is_file('./users/users.txt')) {
     $content = file_get_contents('./users/users.txt');
     $unsercontent = unserialize($content);
+    var_dump($unsercontent);
     foreach ($unsercontent as $user) {
         if (($user->getPseudo() == $coname || $user->getMail() == $coname) && $user->getPassword() == $comdp) {
             session_start();
             $_SESSION['utilisateur'] = $coname;
             echo 'Vous êtes bien connecté.';
+            header('location: index.php');
         } else {
             echo 'Le mot de passe ou l\'utilisateur/mail n\'est pas bon';
         }
     }
 }
+
+// 
 
 
 ?>
