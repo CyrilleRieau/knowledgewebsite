@@ -11,7 +11,10 @@
  *
  * @author rieau
  */
-include_once'./User.php';
+include_once './User.php';
+include_once './Comment.php';
+include_once './Post.php';
+
 
 class Database {
 
@@ -20,7 +23,7 @@ class Database {
 //save user() et load user();
 
 
-            
+
 
 
     public static function userCreate($user) {
@@ -36,6 +39,7 @@ class Database {
                 array_push($tab, $user);
                 fwrite($file, serialize($tab));
                 fclose($file);
+                header('location:index.php');
                 echo '<p>Compte créé.</p>';
             } else {
                 $datas = file_get_contents('./users/users.bin');
@@ -44,8 +48,17 @@ class Database {
                 array_push($useruns, $user);
                 fwrite($file, serialize($useruns));
                 fclose($file);
+                header('location:index.php');
                 echo '<p>Compte créé.</p>';
             }
+        }
+    }
+
+    public static function logUser() {
+        if (isset($_POST['pseudo']) && isset($_POST['mail']) && isset($_POST['pass'])) {
+            $_SESSION['utilisateur'] = $_POST['pseudo'];
+            echo 'Bonjour ' . htmlspecialchars($_SESSION['utilisateur']) . ', vous êtes bien connecté.';
+            echo '<form method="POST" action=""><button class = "logout">Deconnexion</button></form>';
         }
     }
 
@@ -70,10 +83,10 @@ class Database {
         } else {
             $tab = [];
             $d = new DateTime();
-            //$d->format('Y-m-d H:i:s');
+//$d->format('Y-m-d H:i:s');
 
-            if (!is_file('./comment/' . $_POST['pseudo'] . '_' . ($d->format('Y-m-d H:i:s')).'.bin')) {
-                $file = fopen('./comment/' . $_POST['pseudo'] . '_' . ($d->format('Y-m-d H:i:s')). '.bin', 'w+');
+            if (!is_file('./comment/' . $_POST['pseudo'] . '_' . ($d->format('Y-m-d H:i:s')) . '.bin')) {
+                $file = fopen('./comment/' . $_POST['pseudo'] . '_' . ($d->format('Y-m-d H:i:s')) . '.bin', 'w+');
                 array_push($tab, $comment);
                 fwrite($file, serialize($tab));
                 fclose($file);
@@ -97,13 +110,22 @@ class Database {
 
         if (!is_dir('./posts')) {
             mkdir('./posts');
+        }if (!is_dir('./posts/' . $_POST['pseudop'])) {
+            mkdir('./posts/' . $_POST['pseudop']);
+            $tab = [];
+            $d = new DateTime();
+            $file = fopen('./posts/' . $_POST['pseudop'] . '/' . ($d->format('d-m-Y H:i:s')) . '.bin', 'w+');
+            array_push($tab, $post);
+            fwrite($file, serialize($tab));
+            fclose($file);
+            echo '<p>Post créé.</p>';
         } else {
             $tab = [];
             $d = new DateTime();
-            //$d->format('Y-m-d H:i:s');
+//$d->format('Y-m-d H:i:s');
 
-            if (!is_file('./posts/' . $_POST['pseudop'] . '_' . ($d->format('Y-m-d H:i:s')). '.bin')) {
-                $file = fopen('./posts/' . $_POST['pseudop'] . '_' . ($d->format('Y-m-d H:i:s')).'.bin', 'w+');
+            if (!is_file('./posts/' . $_POST['pseudop'] . '/' . ($d->format('d-m-Y H:i:s')) . '.bin')) {
+                $file = fopen('./posts/' . $_POST['pseudop'] . '/' . ($d->format('d-m-Y H:i:s')) . '.bin', 'w+');
                 array_push($tab, $post);
                 fwrite($file, serialize($tab));
                 fclose($file);
@@ -112,4 +134,78 @@ class Database {
         }
     }
 
+    public static function logout() {
+        if (isset($_SESSION['utilisateur'])) {
+            $_SESSION = [];
+            session_destroy();
+            header('location : index.php');
+            echo 'Vous êtes déconnecté.';
+        }
+    }
+
+    public static function login() {
+
+
+        echo '<script> let logou = document.querySelector(".logout");
+logou.addEventListener("click", function () {';
+        echo '<?php Database::logout(); ?>';
+        echo '});</script>';
+    }
+
+    public static function logcreate() {
+        /* if (!isset($_POST['coname']) || !isset($_POST['comdp'])) {
+          echo 'Utilisateur inexistant.';
+          exit(1);
+          }
+         */if ($_POST['coname'] == "" && $_POST['comdp'] == "") {
+            echo 'Utilisateur n\'est pas correct.';
+            exit(1);
+        }
+        $coname = $_POST['coname'];
+        $comdp = md5($_POST['comdp']);
+//Créer une méthode avec 2 arguments qui reprend tout ce qui est en dessous et la mettre dans database pour aviter le sproblemes de boucle
+        if (is_file('./users/users.bin')) {
+            $content = file_get_contents('./users/users.bin');
+            $unsercontent = unserialize($content);
+            foreach ($unsercontent as $user) {
+                if (($user->getPseudo() == $coname || $user->getMail() == $coname) && $user->getPassword() == $comdp) {
+                    $_SESSION['utilisateur'] = $coname;
+                    echo 'Bonjour ' . htmlspecialchars($_SESSION['utilisateur']) . ', vous êtes bien connecté.';
+                    echo '<form method="POST" action=""><button class = "logout">Deconnexion</button></form>';
+                    echo '</section>';
+
+//              echo 'Vous êtes bien connecté ' . htmlspecialchars($_SESSION['utilisateur']) . '.';
+                    //           echo '<form method="POST" action="logout.php"><button>Deconnexion</button></form>';
+//header('location: index.php');
+//           } else {
+//             echo 'Le mot de passe ou l\'utilisateur/mail n\'est pas bon.';
+//       }
+                }
+            }
+        }
+    }
+
+    public static function formlog() {
+        echo '<h1>Connectez-vous </h1>    
+                <form action="" method="POST" >
+                    <label for="coname">Pseudo ou Mail:</label><br>
+                    <input id="coname" type="text" name="coname" /><br>
+                    <br>
+                    <label for="comdp">Mot de Passe :</label><br>
+                    <input id="comdp" type="password" name="comdp" /><br>
+                    <input type="submit" value="Send">
+                </form>
+            </section>';
+    }
+public static function createComment() {
+            return new Comment($_POST['comment'], new DateTime, $_POST['pseudo']);
+        }
+
+public static function createPost() {
+            return new Post($_POST['commentp'], new DateTime, $_POST['pseudop'], $_POST['disciplinep'], $_POST['titrep'], $_POST['tagsp']);
+        }
+
+public static function createUser() {
+   return new User($_POST['pseudo'], $_POST['bio'], $_POST['avatar'], $_POST['age'], $_POST['mail'], md5(htmlspecialchars($_POST['pass'])));
+}
 }

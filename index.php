@@ -8,47 +8,85 @@ and open the template in the editor.
     <head>
         <meta charset="UTF-8">
         <title></title>
+        <!--<script type="text/javascript" src="affichage.js"></script>-->
+        <style>
+            .formconn {
+                display : none;
+            }
+
+            .forminsc {
+                display : none;
+            }
+        </style>
+
     </head>
-    <body>
+    <body>      
+
         <?php
         include_once'./Post.php';
         include_once'./User.php';
         include_once'./Database.php';
         include_once'./Comment.php';
-
         session_start();
         ?>
 
-        <h1>Créez votre compte</h1>
-        <form action="creationuser.php" method="POST">
-            <label for="name">Pseudo :</label><br>
-            <input id="name" type="text" name="pseudo" /><br>
-            <label for="mail">Adresse Mail :</label><br>
-            <input id="mail" type="text" name="mail" /><br>
-            <label for="bio">Biographie :</label><br>   
-            <textarea id="bio" name="bio" rows="4" cols="50"></textarea><br>
-            <label for="pass">Mot de Passe :</label><br>
-            <input type="password" name="pass"/><br>
-            <label for="age">Date de naissance :</label><br>
-            <input type="date" name="age"/><br>
-            <label for="avatar">Photo :</label><br>
-            <input type="file" name="avatar"/>
-            <br>
-            <input type="submit" value="Send">
-        </form>
+        <button type="button" class="inscription" >Inscription</button>
+        <button type="button" class="connexion" >Connexion</button>
 
-        <h1>Connectez-vous </h1>    
-        <form action="" method="POST">
-            <label for="coname">Pseudo ou Mail:</label><br>
-            <input id="coname" type="text" name="coname" /><br>
-            <br>
-            <label for="comdp">Mot de Passe :</label><br>
-            <input id="comdp" type="password" name="comdp" /><br>
-            <input type="submit" value="Send">
-        </form>
+        <section class="formconn">
+            <h1>Créez votre compte</h1>
+            <form action=""  method="POST">
+                <label for="name">Pseudo :</label><br>
+                <input id="name" type="text" name="pseudo" /><br>
+                <label for="mail">Adresse Mail :</label><br>
+                <input id="mail" type="text" name="mail" /><br>
+                <label for="bio">Biographie :</label><br>   
+                <textarea id="bio" name="bio" rows="4" cols="50"></textarea><br>
+                <label for="pass">Mot de Passe :</label><br>
+                <input type="password" name="pass"/><br>
+                <label for="age">Date de naissance :</label><br>
+                <input type="date" name="age"/><br>
+                <label for="avatar">Photo :</label><br>
+                <input type="file" name="avatar"/>
+                <br>
+                <input type="submit" value="Send">
+            </form>
+        </section>
+        <?php
+        
+Database::userCreate(Database::createUser());
 
-
-        <h1>Commentez un post </h1>    
+        Database::logUser();
+            /*if (isset($_SESSION['utilisateur'])) {
+                echo '<section class="forminsc">';
+                echo 'Bonjour ' . $_SESSION['utilisateur'] . ', vous êtes bien connecté.';
+                echo '</section>';
+              */  
+            //}
+?>
+        <section class="forminsc">
+            <?php
+        Database::formlog();
+           
+                ?>
+        <!--
+                <h1>Connectez-vous </h1>    
+                <form action="" method="POST" >
+                    <label for="coname">Pseudo ou Mail:</label><br>
+                    <input id="coname" type="text" name="coname" /><br>
+                    <br>
+                    <label for="comdp">Mot de Passe :</label><br>
+                    <input id="comdp" type="password" name="comdp" /><br>
+                    <input type="submit" value="Send">
+                </form>
+            </section>-->
+            <?php
+        if(isset($_POST['coname']) && isset($_POST['comdp'])){
+        Database::logcreate();
+        Database::login();     
+        }
+        ?>
+        <h1>Commentez </h1>    
         <form action="" method="POST">
             <label for="pseudo">Pseudo :</label><br>
             <input id="pseudo" type="text" name="pseudo" /><br>
@@ -72,13 +110,22 @@ and open the template in the editor.
             <textarea id="commentp" name="commentp" rows="4" cols="50"></textarea><br>
             <input type="submit" value="Send">
         </form>
+
+        <h1>Recherchez un post </h1>    
+        <form action="" method="POST">
+            <label for="pseudorec">Pseudo :</label><br>
+            <input id="pseudorec" type="text" name="pseudorec" /><br>
+            <br>
+            <label for="disciplinerec">Discipline :</label><br>
+            <input id="disciplinerec" name="disciplinerec" /><br>
+            <input type="submit" value="Send">
+        </form>
+
+
+
         <?php
 
-        function createComment() {
-            return new Comment($_POST['comment'], new DateTime, $_POST['pseudo']);
-        }
-
-        Database::commentCreate(createComment());
+        Database::commentCreate(Database::createComment());
 
         $comments = scandir("./comment");
         foreach ($comments as $comment) {
@@ -97,61 +144,30 @@ and open the template in the editor.
             }
         }
 
-        function createPost() {
-            return new Post($_POST['commentp'], new DateTime, $_POST['pseudop'], $_POST['disciplinep'], $_POST['titrep'], $_POST['tagsp']);
-        }
+        
 
-        Database::postCreate(createPost());
-
-        $posts = scandir("./posts");
+        Database::postCreate(Database::createPost());
+//Modifier la recherche pour que fonctionne en fonction du post de recherche
+        $posts = scandir('./posts/' . $_POST['pseudorec']);
         foreach ($posts as $post) {
             //$datas = unserialize($comment);
-            if (is_file('./posts/' . $post)) {
-                $datas = file_get_contents('./posts/' . $post);
-                $unseri = unserialize($datas);
-                foreach ($unseri as $pot) {
-                    echo '<section class=' . basename($post, ".txt") . '><h2>' . $pot->getAuteur() . '</h2>';
-                    echo '<p>' . $pot->getContenu() . '</p></section>';
-                    //echo '<p>' . $com->Date . '</p></section>';
-                    //echo '<form method="post" action="delete-file.php"><input type="hidden" name="fichier" value="' . $file . '"><button>Supprimer</button></form>';
-                    //echo '<a href="change-file.php?fichier='
-                    //.$file.'">Modifier</a>';
-                }
-            }
-        }
-//Modifier Login et Logout pour que fonctionne correctement et le mettre dans Database
-        if (isset($_SESSION['utilisateur'])) {
-            echo 'Bonjour ' . htmlspecialchars($_SESSION['utilisateur']);
-            echo '<form method="POST" action="logout.php"><button>Deconnexion</button></form>';
-        }
-        else {
-          
-            if (!isset($_POST['coname']) || !isset($_POST['comdp'])) {
-                echo 'Utilisateur inexistant.';
-                exit(1);
-            }
-            if ($_POST['coname'] == "" && $_POST['comdp'] == "") {
-                echo 'Utilisateur n\'est pas correct.';
-                exit(1);
-            }
-            $coname = $_POST['coname'];
-            $comdp = md5($_POST['comdp']);
-//Créer une méthode avec 2 arguments qui reprend tout ce qui est en dessous et la mettre dans database pour aviter le sproblemes de boucle
-            if (is_file('./users/users.txt')) {
-                $content = file_get_contents('./users/users.txt');
-                $unsercontent = unserialize($content);
-                foreach ($unsercontent as $user) {
-                    if (($user->getPseudo() == $coname || $user->getMail() == $coname) && $user->getPassword() == $comdp) {
-                        $_SESSION['utilisateur'] = $coname;
-                        echo 'Vous êtes bien connecté '.htmlspecialchars($_SESSION['utilisateur']).'.';
-                        echo '<form method="POST" action="logout.php"><button>Deconnexion</button></form>';
-                        //header('location: index.php');
-                    } else {
-                        echo 'Le mot de passe ou l\'utilisateur/mail n\'est pas bon.';
+            if (is_dir('./posts/' . $_POST['pseudorec'])) {
+                if (is_file('./posts/' . $_POST['pseudorec'] . '/' . $post)) {
+                    $datas = file_get_contents('./posts/' . $_POST['pseudorec'] . '/' . $post);
+                    $unseri = unserialize($datas);
+                    foreach ($unseri as $pot) {
+                        echo '<section class=' . basename($post, ".txt") . '><h2>' . $pot->getAuteur() . '</h2>';
+                        echo '<p>' . $pot->getContenu() . '</p></section>';
+                        //echo '<p>' . $com->Date . '</p></section>';
+                        //echo '<form method="post" action="delete-file.php"><input type="hidden" name="fichier" value="' . $file . '"><button>Supprimer</button></form>';
+                        //echo '<a href="change-file.php?fichier='
+                        //.$file.'">Modifier</a>';
                     }
                 }
             }
         }
+//Modifier Login et Logout pour que fonctionne correctement et le mettre dans Database
+
         ?>
 
         <!--
@@ -179,4 +195,26 @@ and open the template in the editor.
                 $_SESSION['bio'] = $bio;
                 ?> -->
     </body>
+<script>
+    window.onload=function() {
+let inscript = document.querySelector('.inscription');
+let connex = document.querySelector('.connexion');
+let formconn = document.querySelector('.formconn');
+let forminsc = document.querySelector('.forminsc');
+inscript.addEventListener('click', function () {
+    if (formconn.style.display === 'none' || formconn.style.display === '') {
+        formconn.style.display = 'block';
+    } else {
+        formconn.style.display = 'none';
+    }
+});
+connex.addEventListener('click', function () {
+    if (forminsc.style.display === 'none' || forminsc.style.display === '') {
+        forminsc.style.display = 'block';
+    } else {
+        forminsc.style.display = 'none';
+    }
+});
+};
+</script>
 </html>

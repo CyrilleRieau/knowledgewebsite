@@ -20,7 +20,7 @@ function createUser() {
    return new User($_POST['pseudo'], $_POST['bio'], $_POST['avatar'], $_POST['age'], $_POST['mail'], md5(htmlspecialchars($_POST['pass'])));
 }
 
-Database::userCreate(createUser());
+Database::userCreate(Database::createUser());
 //serialize et unserialize
 //}
 //}
