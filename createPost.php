@@ -24,8 +24,8 @@ $discipo = $_POST['disciplinep'];
 $titpo = $_POST['titrep'];
 $tagpo = $_POST['tagsp'];
 $commpo = $_POST['commentp'];
-if (is_file('./posts/'.$_POST['pseudop'].'/'.$post->getDate() /*Problème ici*/.'.bin')) {
-    $content = file_get_contents('./posts/'.$_POST['pseudop'].'/'.$post->getDate() .'.bin');
+if (is_file('./posts/'.$_POST['pseudop'].'/'.($d->format('d-m-Y H:i:s')) /*Problème ici*/.'.bin')) {
+    $content = file_get_contents('./posts/'.$_POST['pseudop'].'/'.($d->format('d-m-Y H:i:s')) /*Problème ici*/.'.bin');
     $unsercontent = unserialize($content);
     
     foreach ($unsercontent as $post) {
@@ -35,7 +35,7 @@ if (is_file('./posts/'.$_POST['pseudop'].'/'.$post->getDate() /*Problème ici*/.
             $_SESSION['titpo'] = $titpo;
             $_SESSION['tagpo'] = $tagpo;
             $_SESSION['commpo'] = $commpo;
-            $_SESSION['datepo'] = $post->getDate();
+            $_SESSION['datepo'] = $d;
         }
     }
 }
