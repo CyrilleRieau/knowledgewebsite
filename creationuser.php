@@ -1,6 +1,8 @@
 <?php
+
 include_once'./User.php';
 include_once'./Database.php';
+session_start();
 
 /* $pseudo = htmlspecialchars($_POST['pseudo']);
   $mail = htmlspecialchars($_POST['mail']);
@@ -17,10 +19,34 @@ include_once'./Database.php';
 //  serialize($user);
 //} else {
 function createUser() {
-   return new User($_POST['pseudo'], $_POST['bio'], $_POST['avatar'], $_POST['age'], $_POST['mail'], md5(htmlspecialchars($_POST['pass'])));
+    return new User($_POST['pseudo'], $_POST['bio'], $_POST['avatar'], $_POST['age'], $_POST['mail'], md5(htmlspecialchars($_POST['pass'])));
 }
 
-Database::userCreate(Database::createUser());
+Database::userCreate(createUser());
+
+
+if (!isset($_POST['pseudo']) || !isset($_POST['pass']) || !isset($_POST['mail'])) {
+    echo 'Utilisateur inexistant.';
+    exit(1);
+}
+if ($_POST['pseudo'] == "" && $_POST['pass'] == "" && $_POST['mail']=="") {
+    echo 'Utilisateur n\'est pas correct.';
+    exit(1);
+}
+$coname = $_POST['pseudo'];
+$comdp = md5(htmlspecialchars($_POST['pass']));
+$comail = $_POST['mail'];
+if (is_file('./users/users.bin')) {
+    $content = file_get_contents('./users/users.bin');
+    $unsercontent = unserialize($content);
+    
+    foreach ($unsercontent as $user) {
+        if (($user->getPseudo() == $coname || $user->getMail() == $comail) && $user->getPassword() == $comdp) {
+            $_SESSION['utilisateur'] = $coname;
+        }
+    }
+}
+header('location:index.php');
 //serialize et unserialize
 //}
 //}
@@ -38,4 +64,3 @@ Database::userCreate(Database::createUser());
   }
  */
 ?>
-<a href="index.php">Retour</a>

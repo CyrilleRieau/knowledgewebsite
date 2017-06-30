@@ -39,8 +39,6 @@ class Database {
                 array_push($tab, $user);
                 fwrite($file, serialize($tab));
                 fclose($file);
-                header('location:index.php');
-                echo '<p>Compte créé.</p>';
             } else {
                 $datas = file_get_contents('./users/users.bin');
                 $useruns = unserialize($datas);
@@ -48,8 +46,6 @@ class Database {
                 array_push($useruns, $user);
                 fwrite($file, serialize($useruns));
                 fclose($file);
-                header('location:index.php');
-                echo '<p>Compte créé.</p>';
             }
         }
     }
@@ -152,40 +148,13 @@ logou.addEventListener("click", function () {';
         echo '});</script>';
     }
 
-    public static function logcreate() {
-        /* if (!isset($_POST['coname']) || !isset($_POST['comdp'])) {
-          echo 'Utilisateur inexistant.';
-          exit(1);
-          }
-         */if ($_POST['coname'] == "" && $_POST['comdp'] == "") {
-            echo 'Utilisateur n\'est pas correct.';
-            exit(1);
-        }
-        $coname = $_POST['coname'];
-        $comdp = md5($_POST['comdp']);
-//Créer une méthode avec 2 arguments qui reprend tout ce qui est en dessous et la mettre dans database pour aviter le sproblemes de boucle
-        if (is_file('./users/users.bin')) {
-            $content = file_get_contents('./users/users.bin');
-            $unsercontent = unserialize($content);
-            foreach ($unsercontent as $user) {
-                if (($user->getPseudo() == $coname || $user->getMail() == $coname) && $user->getPassword() == $comdp) {
-                    $_SESSION['utilisateur'] = $coname;
-                    echo 'Bonjour ' . htmlspecialchars($_SESSION['utilisateur']) . ', vous êtes bien connecté.';
-                    echo '<form method="POST" action=""><button class = "logout">Deconnexion</button></form>';
-                    echo '</section>';
-
-//              echo 'Vous êtes bien connecté ' . htmlspecialchars($_SESSION['utilisateur']) . '.';
-                    //           echo '<form method="POST" action="logout.php"><button>Deconnexion</button></form>';
-//header('location: index.php');
-//           } else {
-//             echo 'Le mot de passe ou l\'utilisateur/mail n\'est pas bon.';
-//       }
+    
                 }
-            }
-        }
-    }
+            //}
+        //}
+    //}
 
-    public static function formlog() {
+   /* public static function formlog() {
         echo '<h1>Connectez-vous </h1>    
                 <form action="" method="POST" >
                     <label for="coname">Pseudo ou Mail:</label><br>
@@ -196,16 +165,9 @@ logou.addEventListener("click", function () {';
                     <input type="submit" value="Send">
                 </form>
             </section>';
-    }
-public static function createComment() {
-            return new Comment($_POST['comment'], new DateTime, $_POST['pseudo']);
-        }
+    }*/
 
-public static function createPost() {
-            return new Post($_POST['commentp'], new DateTime, $_POST['pseudop'], $_POST['disciplinep'], $_POST['titrep'], $_POST['tagsp']);
-        }
-
-public static function createUser() {
-   return new User($_POST['pseudo'], $_POST['bio'], $_POST['avatar'], $_POST['age'], $_POST['mail'], md5(htmlspecialchars($_POST['pass'])));
-}
-}
+//}
+//
+                //header('location:index.php');
+                //echo '<p>Compte créé.</p>';

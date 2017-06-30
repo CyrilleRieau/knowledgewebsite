@@ -1,4 +1,36 @@
 <?php
+include_once './Database.php';
+include_once './User.php';
+include_once './Comment.php';
+include_once './Post.php';
+session_start();
+if (!isset($_POST['coname']) || !isset($_POST['comdp'])) {
+    echo 'Utilisateur inexistant.';
+    exit(1);
+}
+if ($_POST['coname'] == "" && $_POST['comdp'] == "") {
+    echo 'Utilisateur n\'est pas correct.';
+    exit(1);
+}
+$coname = $_POST['coname'];
+$comdp = md5($_POST['comdp']);
+if (is_file('./users/users.bin')) {
+    $content = file_get_contents('./users/users.bin');
+    $unsercontent = unserialize($content);
+    foreach ($unsercontent as $user) {
+        if (($user->getPseudo() == $coname || $user->getMail() == $coname) && $user->getPassword() == $comdp) {
+            $_SESSION['utilisateur'] = $coname;
+            //echo 'Bonjour ' . htmlspecialchars($_SESSION['utilisateur']) . ', vous êtes bien connecté.';
+            //echo '<form method="POST" action=""><button class = "logout">Deconnexion</button></form>';
+            //echo '</section>';
+            //echo 'Vous êtes bien connecté ' . htmlspecialchars($_SESSION['utilisateur']) . '.';
+            //echo '<form method="POST" action="logout.php"><button>Deconnexion</button></form>';
+            header('location: index.php');
+        }
+    }
+    echo 'Les identifiants ne sont pas corrects.';
+    echo '<a href="index.php">Retour</a>';
+}
 /* $file = 'auth.json';
   $json = file_get_contents($file);
   $obj = json_decode($json);
@@ -35,38 +67,38 @@
   echo 'Nope, not correct.';
   }
   } */
-/*include_once './User.php';
-if (!isset($_POST['coname']) || !isset($_POST['comdp'])) {
-    echo 'Utilisateur inexistant.';
-    exit(1);
-}
-if ($_POST['coname'] == "" && $_POST['comdp'] == "") {
-    echo 'Utilisateur n\'est pas correct.';
-    exit(1);
-}
-$coname = $_POST['coname'];
-$comdp = md5($_POST['comdp']);
-var_dump($comdp);
-var_dump($coname);
-//Créer une méthode avec 2 arguments qui reprend tout ce qui est en dessous et la mettre dans database pour aviter le sproblemes de boucle
-if (is_file('./users/users.txt')) {
-    $content = file_get_contents('./users/users.txt');
-    $unsercontent = unserialize($content);
-    var_dump($unsercontent);
-    foreach ($unsercontent as $user) {
-        if (($user->getPseudo() == $coname || $user->getMail() == $coname) && $user->getPassword() == $comdp) {
-            session_start();
-            $_SESSION['utilisateur'] = $coname;
-            echo 'Vous êtes bien connecté.';
-            header('location: index.php');
-        } else {
-            echo 'Le mot de passe ou l\'utilisateur/mail n\'est pas bon';
-        }
-    }
-}
+/* include_once './User.php';
+  if (!isset($_POST['coname']) || !isset($_POST['comdp'])) {
+  echo 'Utilisateur inexistant.';
+  exit(1);
+  }
+  if ($_POST['coname'] == "" && $_POST['comdp'] == "") {
+  echo 'Utilisateur n\'est pas correct.';
+  exit(1);
+  }
+  $coname = $_POST['coname'];
+  $comdp = md5($_POST['comdp']);
+  var_dump($comdp);
+  var_dump($coname);
+  //Créer une méthode avec 2 arguments qui reprend tout ce qui est en dessous et la mettre dans database pour aviter le sproblemes de boucle
+  if (is_file('./users/users.txt')) {
+  $content = file_get_contents('./users/users.txt');
+  $unsercontent = unserialize($content);
+  var_dump($unsercontent);
+  foreach ($unsercontent as $user) {
+  if (($user->getPseudo() == $coname || $user->getMail() == $coname) && $user->getPassword() == $comdp) {
+  session_start();
+  $_SESSION['utilisateur'] = $coname;
+  echo 'Vous êtes bien connecté.';
+  header('location: index.php');
+  } else {
+  echo 'Le mot de passe ou l\'utilisateur/mail n\'est pas bon';
+  }
+  }
+  }
 
-// 
+  //
 
-
+ */
 ?>
-<a href="index.php">Retour</a>
+<!--<a href="index.php">Retour</a>
