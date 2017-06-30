@@ -57,7 +57,7 @@ and open the template in the editor.
            -->
             
             <h1>Créez un post </h1>    
-            <form action="" method="POST">
+            <form action="createPost.php" method="POST">
                 <label for="pseudop">Pseudo :</label><br>
                 <input id="pseudop" type="text" name="pseudop" /><br>
                 <label for="disciplinep">Discipline :</label><br>
