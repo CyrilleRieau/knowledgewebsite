@@ -15,7 +15,6 @@ include_once './User.php';
 include_once './Comment.php';
 include_once './Post.php';
 
-
 class Database {
 
 //function Crud();
@@ -50,14 +49,14 @@ class Database {
         }
     }
 
-    public static function logUser() {
+   /* public static function logUser() {
         if (isset($_POST['pseudo']) && isset($_POST['mail']) && isset($_POST['pass'])) {
             $_SESSION['utilisateur'] = $_POST['pseudo'];
             echo 'Bonjour ' . htmlspecialchars($_SESSION['utilisateur']) . ', vous êtes bien connecté.';
             echo '<form method="POST" action=""><button class = "logout">Deconnexion</button></form>';
         }
     }
-
+*/
     public function getUser() {
         $file = ('./users/users.bin');
         /* for {
@@ -76,15 +75,22 @@ class Database {
 
         if (!is_dir('./comment')) {
             mkdir('./comment');
-        } else {
-            $tab = [];
+            }if (!is_dir('./comment/' . $_POST['pseudocom'])) {
+            mkdir('./comment/' . $_POST['pseudocom']);
+            
+       
             $d = new DateTime();
+            $file = fopen('./comment/' . $_POST['pseudocom'] . '/' . ($d->format('d-m-Y H:i:s')) . '.bin', 'w+');
+            
+            fwrite($file, serialize($comment));
+            fclose($file);
+            echo '<p>Commentaire créé.</p>';
+        } else {
 //$d->format('Y-m-d H:i:s');
-
-            if (!is_file('./comment/' . $_POST['pseudo'] . '_' . ($d->format('Y-m-d H:i:s')) . '.bin')) {
-                $file = fopen('./comment/' . $_POST['pseudo'] . '_' . ($d->format('Y-m-d H:i:s')) . '.bin', 'w+');
-                array_push($tab, $comment);
-                fwrite($file, serialize($tab));
+       $d = new DateTime();
+            if (!is_file('./comment/' . $_POST['pseudocom'] . '_' . ($d->format('Y-m-d H:i:s')) . '.bin')) {
+                $file = fopen('./comment/' . $_POST['pseudocom'] . '_' . ($d->format('Y-m-d H:i:s')) . '.bin', 'w+');
+                fwrite($file, serialize($comment));
                 fclose($file);
                 echo '<p>Commentaire créé.</p>';
             }
@@ -108,29 +114,29 @@ class Database {
             mkdir('./posts');
         }if (!is_dir('./posts/' . $_POST['pseudop'])) {
             mkdir('./posts/' . $_POST['pseudop']);
-            $tab = [];
+            
             $d = new DateTime();
             $file = fopen('./posts/' . $_POST['pseudop'] . '/' . ($d->format('d-m-Y H:i:s')) . '.bin', 'w+');
-            array_push($tab, $post);
-            fwrite($file, serialize($tab));
+            
+            fwrite($file, serialize($post));
             fclose($file);
             echo '<p>Post créé.</p>';
         } else {
-            $tab = [];
+            
             $d = new DateTime();
 //$d->format('Y-m-d H:i:s');
 
             if (!is_file('./posts/' . $_POST['pseudop'] . '/' . ($d->format('d-m-Y H:i:s')) . '.bin')) {
                 $file = fopen('./posts/' . $_POST['pseudop'] . '/' . ($d->format('d-m-Y H:i:s')) . '.bin', 'w+');
-                array_push($tab, $post);
-                fwrite($file, serialize($tab));
+            
+                fwrite($file, serialize($post));
                 fclose($file);
                 echo '<p>Post créé.</p>';
             }
         }
     }
 
-    public static function logout() {
+  /*  public static function logout() {
         if (isset($_SESSION['utilisateur'])) {
             $_SESSION = [];
             session_destroy();
@@ -147,10 +153,10 @@ logou.addEventListener("click", function () {';
         echo '<?php Database::logout(); ?>';
         echo '});</script>';
     }
+*/
+}
 
-    
-                }
-            //}
+//}
         //}
     //}
 

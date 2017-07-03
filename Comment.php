@@ -16,18 +16,19 @@ class Comment {
     protected $contenu;
     protected $date;
     protected $auteur;
+    protected $id;
     protected $upvotes = 0;
     protected $downvotes = 0;
 
-    function __construct($contenu, DateTime $date, $auteur) {
+    function __construct($contenu, DateTime $date, $auteur, $id) {
         $this->contenu = $contenu;
         $this->date = $date;
         $this->auteur = $auteur;
+        $this->id = $id;
     }
-    function getContenu() {
-        return $this->contenu;
-    }
-
+function getContenu(){
+    return $this->contenu;
+}
     function getDate() {
         return $this->date;
     }
@@ -63,6 +64,14 @@ class Comment {
     function setDownvotes($downvotes) {
         $this->downvotes = $downvotes;
     }
+    function getId() {
+        return $this->id;
+    }
+
+    function setId($id) {
+        $this->id = $id;
+    }
+
 
 
 }

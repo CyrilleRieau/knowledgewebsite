@@ -64,6 +64,7 @@ and open the template in the editor.
                 <input id="disciplinep" type="text" name="disciplinep" /><br>
                 <label for="titrep">Titre :</label><br>
                 <input id="titrep" type="text" name="titrep" /><br>
+                <input id="titrephid" type="hidden" name="titrephid" /><br>
                 <label for="tagsp">Mots-clés :</label><br>
                 <input id="tagsp" type="text" name="tagsp" /><br>
                 <label for="commentp">Contenu :</label><br>

@@ -19,8 +19,8 @@ class Post extends Comment{
     protected $titre;
     protected $tags;
     
-    public function __construct($contenu, DateTime $date, $auteur, $discipline, $titre, $tags) {
-        parent::__construct($contenu, $date, $auteur);
+    public function __construct($contenu, DateTime $date, $auteur, $id, $discipline, $titre, $tags) {
+        parent::__construct($contenu, $date, $auteur, $id);
         $this->discipline = $discipline;
         $this->titre = $titre;
         $this->tags = $tags;
