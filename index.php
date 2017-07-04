@@ -55,11 +55,8 @@ and open the template in the editor.
               Database::login();
               } */
            -->
-            
             <h1>Créez un post </h1>    
             <form action="createPost.php" method="POST">
-                <label for="pseudop">Pseudo :</label><br>
-                <input id="pseudop" type="text" name="pseudop" /><br>
                 <label for="disciplinep">Discipline :</label><br>
                 <input id="disciplinep" type="text" name="disciplinep" /><br>
                 <label for="titrep">Titre :</label><br>
@@ -74,9 +71,6 @@ and open the template in the editor.
 
             <h1>Commentez </h1>    
             <form action="" method="POST">
-                <label for="pseudo">Pseudo :</label><br>
-                <input id="pseudo" type="text" name="pseudo" /><br>
-                <br>
                 <label for="comment">Commentaire :</label><br>
                 <textarea id="comment" name="comment" rows="4" cols="50"></textarea><br>
                 <input type="submit" value="Send">

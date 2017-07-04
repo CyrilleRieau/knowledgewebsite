@@ -14,6 +14,7 @@
 include_once './User.php';
 include_once './Comment.php';
 include_once './Post.php';
+session_start();
 
 class Database {
 
@@ -70,17 +71,17 @@ class Database {
           } */
     }
 
-    public static function commentCreate($comment) {
+    public static function commentCreate($comment, Post $post) {
 //        if (!is_file('./users/users.txt')) { RAjouter tableau ou donnees seront stockees et serialize ensuite après ajout
-
+var_dump($post);
         if (!is_dir('./comment')) {
             mkdir('./comment');
-            }if (!is_dir('./comment/' . $_POST['pseudocom'])) {
-            mkdir('./comment/' . $_POST['pseudocom']);
+            }if (!is_dir('./comment/' . $post->getDate()->format('d-m-Y H:i:s'))) {
+            mkdir('./comment/' . $post->getDate()->format('d-m-Y H:i:s'));
             
        
             $d = new DateTime();
-            $file = fopen('./comment/' . $_POST['pseudocom'] . '/' . ($d->format('d-m-Y H:i:s')) . '.bin', 'w+');
+            $file = fopen('./comment/' . $post->getDate()->format('d-m-Y H:i:s') . '/' . ($d->format('d-m-Y H:i:s')) . '.bin', 'w+');
             
             fwrite($file, serialize($comment));
             fclose($file);
@@ -88,8 +89,8 @@ class Database {
         } else {
 //$d->format('Y-m-d H:i:s');
        $d = new DateTime();
-            if (!is_file('./comment/' . $_POST['pseudocom'] . '_' . ($d->format('Y-m-d H:i:s')) . '.bin')) {
-                $file = fopen('./comment/' . $_POST['pseudocom'] . '_' . ($d->format('Y-m-d H:i:s')) . '.bin', 'w+');
+            if (!is_file('./comment/' . $post->getDate()->format('d-m-Y H:i:s') . '/' . ($d->format('Y-m-d H:i:s')) . '.bin')) {
+                $file = fopen('./comment/' . $post->getDate()->format('d-m-Y H:i:s') . '/' . ($d->format('Y-m-d H:i:s')) . '.bin', 'w+');
                 fwrite($file, serialize($comment));
                 fclose($file);
                 echo '<p>Commentaire créé.</p>';
@@ -107,27 +108,27 @@ class Database {
         }
     }
 
-    public static function postCreate($post) {
+    public static function postCreate(Post $post) {
 //        if (!is_file('./users/users.txt')) { RAjouter tableau ou donnees seront stockees et serialize ensuite après ajout
 
         if (!is_dir('./posts')) {
             mkdir('./posts');
-        }if (!is_dir('./posts/' . $_POST['pseudop'])) {
-            mkdir('./posts/' . $_POST['pseudop']);
+        }if (!is_dir('./posts/' . $_SESSION['utilisateur'])) {
+            mkdir('./posts/' . $_SESSION['utilisateur']);
             
-            $d = new DateTime();
-            $file = fopen('./posts/' . $_POST['pseudop'] . '/' . ($d->format('d-m-Y H:i:s')) . '.bin', 'w+');
+            $d = $post->getDate();
+            $file = fopen('./posts/' . $_SESSION['utilisateur'] . '/' . ($d->format('d-m-Y H:i:s')) . '.bin', 'w+');
             
             fwrite($file, serialize($post));
             fclose($file);
             echo '<p>Post créé.</p>';
         } else {
             
-            $d = new DateTime();
+            $d = $post->getDate();
 //$d->format('Y-m-d H:i:s');
 
-            if (!is_file('./posts/' . $_POST['pseudop'] . '/' . ($d->format('d-m-Y H:i:s')) . '.bin')) {
-                $file = fopen('./posts/' . $_POST['pseudop'] . '/' . ($d->format('d-m-Y H:i:s')) . '.bin', 'w+');
+            if (!is_file('./posts/' . $_SESSION['utilisateur'] . '/' . ($d->format('d-m-Y H:i:s')) . '.bin')) {
+                $file = fopen('./posts/' . $_SESSION['utilisateur'] . '/' . ($d->format('d-m-Y H:i:s')) . '.bin', 'w+');
             
                 fwrite($file, serialize($post));
                 fclose($file);

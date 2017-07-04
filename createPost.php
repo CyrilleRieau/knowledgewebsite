@@ -1,27 +1,29 @@
 <?php
-
 include_once './Database.php';
 include_once './Comment.php';
-$titreid = $_POST['titrep'];
+include_once './Post.php';
+session_start();
+$titrehid = $_POST['titrep'];
+echo $titrehid;
 function createPost() {
-            return new Post($_POST['commentp'], new DateTime, $_POST['pseudop'], $titrehid, $_POST['disciplinep'], $_POST['titrep'], $_POST['tagsp']);
+            return new Post($_POST['commentp'], new DateTime(), $_SESSION['utilisateur'], $titrehid, $_POST['disciplinep'], $_POST['titrep'], $_POST['tagsp']);
         }
 
         Database::postCreate(createPost());
         
 
 
-if (!isset($_POST['pseudop']) || !isset($_POST['disciplinep']) || !isset($_POST['titrep'])|| !isset($_POST['tagsp'])|| !isset($_POST['commentp'])) {
+if (!isset($_SESSION['utilisateur']) || !isset($_POST['disciplinep']) || !isset($_POST['titrep'])|| !isset($_POST['tagsp'])|| !isset($_POST['commentp'])) {
     echo 'Post inexistant.';
     exit(1);
 }
-if ($_POST['pseudop'] == "" || $_POST['disciplinep'] == "" || $_POST['titrep']=="" || $_POST['tagsp']=="" || $_POST['commentp']=="") {
+if ($_SESSION['utilisateur'] == "" || $_POST['disciplinep'] == "" || $_POST['titrep']=="" || $_POST['tagsp']=="" || $_POST['commentp']=="") {
     echo 'Post non complet.';
     exit(1);
 }
-$namepo = $_POST['pseudop'];
+//$namepo = $_SESSION['utilisateur'];
 $discipo = $_POST['disciplinep'];
-$titpo = $_POST['titrep'];
+//$titpo = $_POST['titrep'];
 $tagpo = $_POST['tagsp'];
 $commpo = $_POST['commentp'];
 
@@ -33,9 +35,9 @@ $commpo = $_POST['commentp'];
     //foreach ($unsercontent as $post) {
         
   //      if ($post->getPseudo() == $namepo && $post->getDiscipline() == $discipo && $post->getTitre() == $titpo && $post->getTags() == $tagpo && $post->getContenu() == $commpo) {
-            $_SESSION['utilisateurpo'] = $namepo;
+  //          $_SESSION['utilisateur'] = $namepo;
             $_SESSION['discipo'] = $discipo;
-            $_SESSION['titpo'] = $titpo;
+  //          $_SESSION['titpo'] = $titpo;
             $_SESSION['tagpo'] = $tagpo;
             $_SESSION['commpo'] = $commpo;
           // $_SESSION['datepo'] = $d;
