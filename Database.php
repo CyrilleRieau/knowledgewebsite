@@ -50,14 +50,15 @@ class Database {
         }
     }
 
-   /* public static function logUser() {
-        if (isset($_POST['pseudo']) && isset($_POST['mail']) && isset($_POST['pass'])) {
-            $_SESSION['utilisateur'] = $_POST['pseudo'];
-            echo 'Bonjour ' . htmlspecialchars($_SESSION['utilisateur']) . ', vous êtes bien connecté.';
-            echo '<form method="POST" action=""><button class = "logout">Deconnexion</button></form>';
-        }
-    }
-*/
+    /* public static function logUser() {
+      if (isset($_POST['pseudo']) && isset($_POST['mail']) && isset($_POST['pass'])) {
+      $_SESSION['utilisateur'] = $_POST['pseudo'];
+      echo 'Bonjour ' . htmlspecialchars($_SESSION['utilisateur']) . ', vous êtes bien connecté.';
+      echo '<form method="POST" action=""><button class = "logout">Deconnexion</button></form>';
+      }
+      }
+     */
+
     public function getUser() {
         $file = ('./users/users.bin');
         /* for {
@@ -73,24 +74,24 @@ class Database {
 
     public static function commentCreate($comment, Post $post) {
 //        if (!is_file('./users/users.txt')) { RAjouter tableau ou donnees seront stockees et serialize ensuite après ajout
-var_dump($post);
+
         if (!is_dir('./comment')) {
             mkdir('./comment');
-            }if (!is_dir('./comment/' . $post->getDate()->format('d-m-Y H:i:s'))) {
+        }if (!is_dir('./comment/' . $post->getDate()->format('d-m-Y H:i:s'))) {
             mkdir('./comment/' . $post->getDate()->format('d-m-Y H:i:s'));
-            
-       
+
+
             $d = new DateTime();
             $file = fopen('./comment/' . $post->getDate()->format('d-m-Y H:i:s') . '/' . ($d->format('d-m-Y H:i:s')) . '.bin', 'w+');
-            
+
             fwrite($file, serialize($comment));
             fclose($file);
             echo '<p>Commentaire créé.</p>';
         } else {
 //$d->format('Y-m-d H:i:s');
-       $d = new DateTime();
-            if (!is_file('./comment/' . $post->getDate()->format('d-m-Y H:i:s') . '/' . ($d->format('Y-m-d H:i:s')) . '.bin')) {
-                $file = fopen('./comment/' . $post->getDate()->format('d-m-Y H:i:s') . '/' . ($d->format('Y-m-d H:i:s')) . '.bin', 'w+');
+            $d = new DateTime();
+            if (!is_file('./comment/' . $post->getDate()->format('d-m-Y H:i:s') . '/' . ($d->format('d-m-Y H:i:s')) . '.bin')) {
+                $file = fopen('./comment/' . $post->getDate()->format('d-m-Y H:i:s') . '/' . ($d->format('d-m-Y H:i:s')) . '.bin', 'w+');
                 fwrite($file, serialize($comment));
                 fclose($file);
                 echo '<p>Commentaire créé.</p>';
@@ -115,21 +116,19 @@ var_dump($post);
             mkdir('./posts');
         }if (!is_dir('./posts/' . $_SESSION['utilisateur'])) {
             mkdir('./posts/' . $_SESSION['utilisateur']);
-            
+
             $d = $post->getDate();
             $file = fopen('./posts/' . $_SESSION['utilisateur'] . '/' . ($d->format('d-m-Y H:i:s')) . '.bin', 'w+');
-            
             fwrite($file, serialize($post));
             fclose($file);
             echo '<p>Post créé.</p>';
         } else {
-            
+
             $d = $post->getDate();
 //$d->format('Y-m-d H:i:s');
 
             if (!is_file('./posts/' . $_SESSION['utilisateur'] . '/' . ($d->format('d-m-Y H:i:s')) . '.bin')) {
                 $file = fopen('./posts/' . $_SESSION['utilisateur'] . '/' . ($d->format('d-m-Y H:i:s')) . '.bin', 'w+');
-            
                 fwrite($file, serialize($post));
                 fclose($file);
                 echo '<p>Post créé.</p>';
@@ -137,24 +136,24 @@ var_dump($post);
         }
     }
 
-  /*  public static function logout() {
-        if (isset($_SESSION['utilisateur'])) {
-            $_SESSION = [];
-            session_destroy();
-            header('location : index.php');
-            echo 'Vous êtes déconnecté.';
-        }
-    }
+    /*  public static function logout() {
+      if (isset($_SESSION['utilisateur'])) {
+      $_SESSION = [];
+      session_destroy();
+      header('location : index.php');
+      echo 'Vous êtes déconnecté.';
+      }
+      }
 
-    public static function login() {
+      public static function login() {
 
 
-        echo '<script> let logou = document.querySelector(".logout");
-logou.addEventListener("click", function () {';
-        echo '<?php Database::logout(); ?>';
-        echo '});</script>';
-    }
-*/
+      echo '<script> let logou = document.querySelector(".logout");
+      logou.addEventListener("click", function () {';
+      echo '<?php Database::logout(); ?>';
+      echo '});</script>';
+      }
+     */
 }
 
 //}

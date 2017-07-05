@@ -9,7 +9,7 @@ session_start();
 
 //var_dump($_POST['post']);
 function createComment() {
-   return new Comment($_POST['commentcom'], new DateTime, $_SESSION['utilisateur'], 'bloup');
+   return new Comment($_POST['commentcom'], new DateTime(), $_SESSION['utilisateur'], 'bloup');
    
 }
 Database::commentCreate(createComment(), unserialize(base64_decode($_POST['post'])));

@@ -12,7 +12,7 @@ and open the template in the editor.
     
     <body>
         <?php 
-        include_once './Post.php';
+        /*include_once './Post.php';
         include_once './Database.php';
         include_once './Comment.php';
     session_start();

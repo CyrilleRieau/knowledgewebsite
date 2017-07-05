@@ -37,7 +37,10 @@ and open the template in the editor.
                             <p> <?php echo $unserpost->getTags(); ?> </p>
                             <p> <?php echo $unserpost->getDate()->format('d-m-Y H:i:s'); ?> </p>
                         </section>
-                        
+                        <form action="deletePost.php" method="POST">
+                            <input type="hidden" value="<?php echo base64_encode($seripost) ?>" name="fpost">
+                            <input type="submit" value="Supprimer">
+                        </form>
                         <h1>Commentez </h1>    
                         <form action="createComment.php" method="POST">
                             <input type="hidden" value="<?php echo base64_encode($seripost) ?>" name="post">
@@ -45,51 +48,61 @@ and open the template in the editor.
                             <textarea id="commentcom" name="commentcom" rows="4" cols="50"></textarea><br>
                             <input type="submit" value="Send">
                         </form>
+
                         <?php
-        }
-                        if (!isset($_SESSION['commcom']) && !isset($_SESSION['utilisateur'])) {
-                            echo 'Pas de commentaire.';
-                            exit(1);
-                        } if (isset($_SESSION['commcom']) == "" && isset($_SESSION['utilisateur']) == "") {
-                            echo 'Pas de commentaire.';
-                            exit(1);
-                        }
-                        if (is_dir('./comment/'.$unserpost->getDate()->format('d-m-Y H:i:s'))) {
-                            $commentss = scandir('./comment/'.$unserpost->getDate()->format('d-m-Y H:i:s'));
-                            
-                            $commentss = array_diff($commentss, ['..', '.', '.txt']);
-                            foreach ($commentss as $comments) {
-                                
-                               // if (is_dir('./comment/' . $comments)) {
-                                    //$datas = unserialize($comment);
+                    }
+                    if (!isset($_SESSION['commcom']) && !isset($_SESSION['utilisateur'])) {
+                        echo 'Pas de commentaire.';
+                        exit(1);
+                    } if (isset($_SESSION['commcom']) == "" && isset($_SESSION['utilisateur']) == "") {
+                        echo 'Pas de commentaire.';
+                        exit(1);
+                    }
+                    if (is_dir('./comment/' . $unserpost->getDate()->format('d-m-Y H:i:s'))) {
+                        $commentss = scandir('./comment/' . $unserpost->getDate()->format('d-m-Y H:i:s'));
 
+                        $commentss = array_diff($commentss, ['..', '.', '.txt']);
+                        foreach ($commentss as $comments) {
 
+                            // if (is_dir('./comment/' . $comments)) {
+                            //$datas = unserialize($comment);
                             //        $comtuser = scandir('./comment/' . $comments);
-                              //      $comtuser = array_diff($comtuser, ['..', '.']);
+                            //      $comtuser = array_diff($comtuser, ['..', '.']);
+                            //    foreach ($comtuser as $comt) {
+                            //      if (!is_dir('./comment/' . $comments . '/' . $comt)) {
 
-                                //    foreach ($comtuser as $comt) {
+                            $sericomt = file_get_contents('./comment/' . $unserpost->getDate()->format('d-m-Y H:i:s') . '/' . $comments);
+                            $unsercomt = unserialize($sericomt);
 
-                                  //      if (!is_dir('./comment/' . $comments . '/' . $comt)) {
+                            //     if ($comments === $unserpost->getDate()->format('d-m-Y H:i:s')) {
+                            ?>
+                            <section id="<?php echo $unsercomt->getDate()->format('d-m-Y H:i:s'); ?>">
 
-                                            $sericomt = file_get_contents('./comment/' . $unserpost->getDate()->format('d-m-Y H:i:s'). '/' . $comments);
-                                            $unsercomt = unserialize($sericomt);
-
-                                       //     if ($comments === $unserpost->getDate()->format('d-m-Y H:i:s')) {
-                                                ?>
-                                                <section id="<?php echo $unsercomt->getDate()->format('d-m-Y H:i:s'); ?>">
-
-                                                    <p> <?php echo $unsercomt->getContenu(); ?> </p>
-                                                    <p> <?php echo $_SESSION['utilisateur']; ?> </p>
-                                                    <p> <?php echo $unsercomt->getDate()->format('d-m-Y H:i:s');
-                                                ?> </p></section>
-                                                        <?php
-                                          //          }
-                                             //   }
-                                           // }
-                                        //}
-         }}}                   }
+                                <p> <?php echo $unsercomt->getContenu(); ?> </p>
+                                <p> <?php echo $_SESSION['utilisateur']; ?> </p>
+                                <p> <?php echo $unsercomt->getDate()->format('d-m-Y H:i:s');
+                            ?> </p></section>
+                            <form action="deleteComment.php" method="POST">
+                                <input type="hidden" value="<?php echo base64_encode($sericomt) ?>" name="cpost">
+                                <input type="hidden" value="<?php echo base64_encode($seripost) ?>" name="comfpost">
+                                <input type="submit" value="Supprimer">
+                            </form>
+                            <form action="modifcom.php" method="GET">
+                                <input type="hidden" value="<?php echo base64_encode($sericomt) ?>" name="cpost">
+                                <input type="hidden" value="<?php echo base64_encode($seripost) ?>" name="comfpost">
+                                <input type="submit" value="Modifier">
+                            </form>
+                            <?php
+                            //          }
+                            //   }
+                            // }
+                            //}
+                        }
+                    }
                 }
-                ?>
+            }
+        }
+        ?>
         <a href="index.php">Retour</a>
     </body>
 </html>
