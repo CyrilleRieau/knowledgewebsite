@@ -1,7 +1,7 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>Modif Post</title>
+        <title>Modif Commentaire</title>
     </head>
     <body>
         <?php
@@ -17,13 +17,13 @@
             $d = $y->getDate();
             $e = $z->getDate();
            
-            $com = new Comment($_POST['commentcom'], $d, $_SESSION['utilisateur'], '$bloup');
+            $com = new Comment($_POST['commentcom'], $d, $_SESSION['utilisateur'], 'bloup');
             
             if (is_file('./comment/' . ($e->format('d-m-Y H:i:s')) . '/' . ($d->format('d-m-Y H:i:s'))).'.bin') {
                 $file = fopen('./comment/' . ($e->format('d-m-Y H:i:s')) . '/' . ($d->format('d-m-Y H:i:s')).'.bin', 'w');
                 fwrite($file, serialize($com));
                 fclose($file);
-                echo 'vous avez modifié le fichier.';
+                echo 'Vous avez modifié le fichier.';
             }
         }
 
@@ -37,8 +37,8 @@
                 //$comment = file_get_contents('./comment/' . ($e->format('d-m-Y H:i:s')) . '/' . ($d->format('d-m-Y H:i:s')));
                 ?>
                 <form action="" method="POST">
-                    <input type="hidden" value="<?php echo base64_encode($_GET['comfpost']) ?>" name="post">
-                    <input type="hidden" value="<?php echo base64_encode($_GET['cpost']) ?>" name="comment">
+                    <input type="hidden" value="<?php echo ($_GET['comfpost']) ?>" name="post">
+                    <input type="hidden" value="<?php echo ($_GET['cpost']) ?>" name="comment">
                     <label for="comment">Commentaire :</label><br>
                     <textarea id = "commentcom" name = "commentcom" rows = "4" cols = "50"></textarea><br>
                     <input type = "submit" value = "Modifier">

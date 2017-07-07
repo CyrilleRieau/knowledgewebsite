@@ -30,17 +30,23 @@ and open the template in the editor.
                         $seripost = file_get_contents('./posts/' . $user . '/' . $post);
                         $unserpost = unserialize($seripost);
                         ?>
-                        <section id="<?php echo $unserpost->getTitre(); ?>"><a href=" postliste.php?id=<?php ?>"><?php echo $unserpost->getTitre(); ?></a>
+                        <section id="<?php echo $unserpost->getTitre(); ?>"><a href=" postliste.php?id=<?php echo base64_encode($seripost)?>"><?php echo $unserpost->getTitre(); ?></a>
                             <h1> <?php echo $unserpost->getTitre(); ?> </h1>
-                            <p> <?php echo $unserpost->getContenu(); ?> </p>
+                            
                             <p> <?php echo $unserpost->getAuteur(); ?> </p>
                             <p> <?php echo $unserpost->getTags(); ?> </p>
-                            <p> <?php echo $unserpost->getDate()->format('d-m-Y H:i:s'); ?> </p>
+                            
                         </section>
-                        <form action="deletePost.php" method="POST">
-                            <input type="hidden" value="<?php echo base64_encode($seripost) ?>" name="fpost">
-                            <input type="submit" value="Supprimer">
-                        </form>
+                        <?php if ($_SESSION['utilisateur'] == $unserpost->getAuteur()) { ?>
+                            <form action="deletePost.php" method="POST">
+                                <input type="hidden" value="<?php echo base64_encode($seripost) ?>" name="fpost">
+                                <input type="submit" value="Supprimer">
+                            </form>
+                            <form action="modifPost.php" method="GET">
+                                <input type="hidden" value="<?php echo base64_encode($seripost) ?>" name="postmodif">
+                                <input type="submit" value="Modifier">
+                            </form>
+                        <?php } ?>
                         <h1>Commentez </h1>    
                         <form action="createComment.php" method="POST">
                             <input type="hidden" value="<?php echo base64_encode($seripost) ?>" name="post">
@@ -79,20 +85,23 @@ and open the template in the editor.
                             <section id="<?php echo $unsercomt->getDate()->format('d-m-Y H:i:s'); ?>">
 
                                 <p> <?php echo $unsercomt->getContenu(); ?> </p>
-                                <p> <?php echo $_SESSION['utilisateur']; ?> </p>
+                                <p> <?php echo $unsercomt->getAuteur(); ?> </p>
                                 <p> <?php echo $unsercomt->getDate()->format('d-m-Y H:i:s');
                             ?> </p></section>
-                            <form action="deleteComment.php" method="POST">
-                                <input type="hidden" value="<?php echo base64_encode($sericomt) ?>" name="cpost">
-                                <input type="hidden" value="<?php echo base64_encode($seripost) ?>" name="comfpost">
-                                <input type="submit" value="Supprimer">
-                            </form>
-                            <form action="modifcom.php" method="GET">
-                                <input type="hidden" value="<?php echo base64_encode($sericomt) ?>" name="cpost">
-                                <input type="hidden" value="<?php echo base64_encode($seripost) ?>" name="comfpost">
-                                <input type="submit" value="Modifier">
-                            </form>
-                            <?php
+                            <?php if ($_SESSION['utilisateur'] == $unsercomt->getAuteur()) { ?>
+                                <form action="deleteComment.php" method="POST">
+                                    <input type="hidden" value="<?php echo base64_encode($sericomt) ?>" name="cpost">
+                                    <input type="hidden" value="<?php echo base64_encode($seripost) ?>" name="comfpost">
+                                    <input type="submit" value="Supprimer">
+                                </form>
+
+                                <form action="modifcom.php" method="GET">
+                                    <input type="hidden" value="<?php echo base64_encode($sericomt) ?>" name="cpost">
+                                    <input type="hidden" value="<?php echo base64_encode($seripost) ?>" name="comfpost">
+                                    <input type="submit" value="Modifier">
+                                </form>
+                                <?php
+                            }
                             //          }
                             //   }
                             // }
