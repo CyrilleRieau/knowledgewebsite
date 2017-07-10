@@ -17,7 +17,7 @@ and open the template in the editor.
         include_once './User.php';
         include_once './Comment.php';
         include_once './Post.php';
-        session_start();
+       
         
         if(isset($_GET['id'])) {
         $unserpost = unserialize(base64_decode($_GET['id'])); 
@@ -26,7 +26,7 @@ and open the template in the editor.
                             <h1> <?php echo $unserpost->getTitre(); ?> </h1>
                             <p> <?php echo $unserpost->getContenu(); ?> </p>
                             <p> <?php echo $unserpost->getAuteur(); ?> </p>
-                            <p> <?php echo $unserpost->getTags(); ?> </p>
+                            <p> Tags : <?php echo $unserpost->getTags(); ?> </p>
                             <p> <?php echo $unserpost->getDate()->format('d-m-Y H:i:s'); ?> </p>
                         <?php
         }

@@ -19,6 +19,9 @@ and open the template in the editor.
             .forminsc {
                 display : none;
             }
+            .form-control {
+                width : 70% ;
+            }
         </style>
 
     </head>
@@ -35,166 +38,83 @@ and open the template in the editor.
                 <div class="col-sm-4 col-sm-offset-2 col-md-3 col-md-offset-3 col-lg-4 col-lg-offset-2"><a href="inscription.php" class="inscription" >Inscription</a></div>
                 <div class="col-sm-4 col-sm-offset-2 col-md-3 col-md-offset-3 col-lg-4 col-lg-offset-2"><a href="connexion.php" class="connexion" >Connexion</a></div>
             </div>
-            <?php
-            /* Database::logUser();
-             */
-
-            if (is_dir('./posts')) {
-                $users = scandir('./posts');
-                $users = array_diff($users, ['..', '.']);
-                foreach ($users as $user) {
-                    //$datas = unserialize($comment);
-                    $postuser = scandir('./posts/' . $user);
-                    $postuser = array_diff($postuser, ['..', '.']);
-                    foreach ($postuser as $post) {
-                        if (!is_dir('./posts/' . $user . '/' . $post)) {
-                            $seripost = file_get_contents('./posts/' . $user . '/' . $post);
-                            $unserpost = unserialize($seripost);
-                            ?>
-                            <section id="<?php echo $unserpost->getTitre(); ?>"><a href=" postliste.php?id=<?php echo base64_encode($seripost) ?>"><?php echo $unserpost->getTitre(); ?></a>
-                                <h1> <?php echo $unserpost->getTitre(); ?> </h1>
-
-                                <p> <?php echo $unserpost->getAuteur(); ?> </p>
-                                <p> <?php echo $unserpost->getTags(); ?> </p>
-
-                            </section><?php
-                        }
-                    }
+            <div class="row">
+                <?php
+                /*
+                foreach(Database::recupUser() as $user) {
+                ?>
+                <p><?php echo $user->getPseudo();?></p>
+                <p><?php echo $user->getBio();?></p>
+                <p><?php echo $user->getAvatar();?></p>
+                <p><?php echo $user->getAge();?></p>
+                <p><?php echo $user->getMail();?></p>
+                <p><?php echo $user->getPassword();?></p>
+                <?php }
+                 
+                 */   
+                foreach (Database::recupPost() as $unserpost) {
+                    ?>
+                    <section class="col-sm-4 col-sm-offset-2 col-md-3 col-md-offset-3 col-lg-4 col-lg-offset-2" id="<?php echo $unserpost->getTitre(); ?>">
+                        <h1>
+                            <a href=" postliste.php?id=<?php echo base64_encode($seripost) ?>"><?php echo $unserpost->getTitre(); ?></a>
+                        </h1>
+                        <p> <?php echo $unserpost->getAuteur(); ?> </p>
+                        <p> <?php echo $unserpost->getTags(); ?> </p>
+                    </section>
+                    <?php
                 }
             }
-        }
+            ?>
+        </div>
+        <?php
         if (isset($_SESSION['utilisateur'])) {
             echo 'Bonjour ' . $_SESSION['utilisateur'] . ', vous êtes bien connecté.';
             ?>
             <a href="logout.php" class ="logout">Deconnexion</a>
+            <div class="row">
+                <div class="col-md-4 col-md-offset-2 form-group"><h1>Créez un post </h1>    
+                    <form action="createPost.php" method="POST">
+                        <label for="disciplinep">Discipline :</label><br>
+                        <input class="form-control" id="disciplinep" type="text" name="disciplinep" /><br>
+                        <label for="titrep">Titre :</label><br>
+                        <input class="form-control" id="titrep" type="text" name="titrep" /><br>
+                        <input id="titrephid" type="hidden" name="titrephid" /><br>
+                        <label for="tagsp">Mots-clés :</label><br>
+                        <input class="form-control" id="tagsp" type="text" name="tagsp" /><br>
+                        <label for="commentp">Contenu :</label><br>
+                        <textarea class="form-control" id="commentp" name="commentp" rows="4" cols="50"></textarea><br>
+                        <input class="btn btn-default" type="submit" value="Send">
+                    </form>
+                </div>
+                <div class="col-md-4 col-md-offset-2 form-group">
+                    <h1>Recherchez </h1>    
+                    <form action="recherche.php" method="POST">
+                        <label for="pseudorec">Pseudo :</label>
+                        <input class="form-control" id="pseudorec" type="text" name="pseudorec" />
+                        <label for="disciplinerec">Discipline :</label>
+                        <input class="form-control" id="disciplinerec" name="disciplinerec" />
+                        <label for="tagsrec">Tags :</label>
+                        <input class="form-control" id="tagsrec" name="tagsrec" />
+                        <input class="btn btn-default" type="submit" value="Send">
+                    </form>
+                </div>
+            </div>
+            <div class="row">
+                <?php
+                foreach (Database::recupPost() as $unserpost) {
+                    ?>
+                    <section class="col-sm-4 col-sm-offset-2 col-md-3 col-md-offset-3 col-lg-4 col-lg-offset-2" id="<?php echo $unserpost->getTitre(); ?>">
+                        <h1>
+                            <a href=" postliste.php?id=<?php echo base64_encode(serialize($unserpost)) ?>"><?php echo $unserpost->getTitre(); ?></a>
+                        </h1><p> <?php echo $unserpost->getAuteur(); ?> </p>
+                        <p> <?php echo $unserpost->getTags(); ?> </p>
 
-            <!--
-                /* }
-                  // Database::formlog();
-
-                  //if (isset($_POST['coname']) && isset($_POST['comdp'])) {
-                  Database::logcreate();
-                  Database::login();
-                  } */
-            -->
-            <h1>Créez un post </h1>    
-            <form action="createPost.php" method="POST">
-                <label for="disciplinep">Discipline :</label><br>
-                <input id="disciplinep" type="text" name="disciplinep" /><br>
-                <label for="titrep">Titre :</label><br>
-                <input id="titrep" type="text" name="titrep" /><br>
-                <input id="titrephid" type="hidden" name="titrephid" /><br>
-                <label for="tagsp">Mots-clés :</label><br>
-                <input id="tagsp" type="text" name="tagsp" /><br>
-                <label for="commentp">Contenu :</label><br>
-                <textarea id="commentp" name="commentp" rows="4" cols="50"></textarea><br>
-                <input type="submit" value="Send">
-            </form>
-
-            <h1>Recherchez </h1>    
-            <form action="" method="POST">
-                <label for="pseudorec">Pseudo :</label><br>
-                <input id="pseudorec" type="text" name="pseudorec" /><br>
-                <br>
-                <label for="disciplinerec">Discipline :</label><br>
-                <input id="disciplinerec" name="disciplinerec" /><br>
-                <input type="submit" value="Send">
-            </form>
-            <?php
-            if (is_dir('./posts')) {
-                $users = scandir('./posts');
-                $users = array_diff($users, ['..', '.']);
-                foreach ($users as $user) {
-                    //$datas = unserialize($comment);
-                    $postuser = scandir('./posts/' . $user);
-                    $postuser = array_diff($postuser, ['..', '.']);
-                    foreach ($postuser as $post) {
-                        if (!is_dir('./posts/' . $user . '/' . $post)) {
-                            $seripost = file_get_contents('./posts/' . $user . '/' . $post);
-                            $unserpost = unserialize($seripost);
-                            ?>
-                            <section id="<?php echo $unserpost->getTitre(); ?>">
-                                <h1>
-                                    <a href=" postliste.php?id=<?php echo base64_encode($seripost) ?>"><?php echo $unserpost->getTitre(); ?></a>
-                                </h1><p> <?php echo $unserpost->getAuteur(); ?> </p>
-                                <p> <?php echo $unserpost->getTags(); ?> </p>
-
-                            </section><?php
-                        }
-                    }
+                    </section><?php
                 }
             }
-
-            /* $comments = scandir("./comment");
-              foreach ($comments as $comment) {
-              //$datas = unserialize($comment);
-              if (is_file('./comment/' . $comment)) {
-              $datas = file_get_contents('./comment/' . $comment);
-              $unseri = unserialize($datas);
-              foreach ($unseri as $com) {
-              echo '<section class=' . basename($comment, ".bin") . '><h2>' . $com->getAuteur() . '</h2>';
-              echo '<p>' . $com->getContenu() . '</p></section>';
-              //echo '<p>' . $com->Date . '</p></section>';
-              //echo '<form method="post" action="delete-file.php"><input type="hidden" name="fichier" value="' . $file . '"><button>Supprimer</button></form>';
-              //echo '<a href="change-file.php?fichier='
-              //.$file.'">Modifier</a>';
-              }
-              }
-              }
-             */
-
-
-//Modifier la recherche pour que fonctionne en fonction du post de recherche
-            if (isset($_POST['pseudorec'])) {
-                $posts = scandir('./posts/' . $_POST['pseudorec']);
-                foreach ($posts as $post) {
-                    //$datas = unserialize($comment);
-                    if (is_dir('./posts/' . $_POST['pseudorec'])) {
-                        if (is_file('./posts/' . $_POST['pseudorec'] . '/' . $post)) {
-                            $datas = file_get_contents('./posts/' . $_POST['pseudorec'] . '/' . $post);
-                            $unseri = unserialize($datas);
-                            foreach ($unseri as $pot) {
-                                echo '<section class=' . basename($post, ".txt") . '><h2>' . $pot->getAuteur() . '</h2>';
-                                echo '<p>' . $pot->getContenu() . '</p></section>';
-                                //echo '<p>' . $com->Date . '</p></section>';
-                                //echo '<form method="post" action="delete-file.php"><input type="hidden" name="fichier" value="' . $file . '"><button>Supprimer</button></form>';
-                                //echo '<a href="change-file.php?fichier='
-                                //.$file.'">Modifier</a>';
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
-//Modifier Login et Logout pour que fonctionne correctement et le mettre dans Database
-        ?>
-
-        <!--
-        
-         if ((isset($_SESSION['pseudo']) || isset($_SESSION['mail'])) && isset($_SESSION['pass'])) {
-                    $pass = $_SESSION['pass'];
-                    $pseudo = $_SESSION['pseudo'];
-                    $mail = $_SESSION['mail'];
-                    $avatar = $_SESSION['avatar'];
-                    $passhach = md5($pass);
-                    $age = $_SESSION['age'];
-                    $bio = $_SESSION['bio'];
-                    Database::getUser();
-                } else {
-                    createUser($_SESSION['pseudo'], $_SESSION['bio'],  $_SESSION['avatar'], $_SESSION['age'] , $_SESSION['mail'], $passhach);
-                    $this->user->userCreate();
-                    
-                }
-               
-                $_SESSION['pass'] = $pass;
-                $_SESSION['pseudo'] = $pseudo;
-                $_SESSION['mail'] = $mail;
-                $_SESSION['avatar'] = $avatar;
-                $_SESSION['age'] = $age;
-                $_SESSION['bio'] = $bio;
-                ?> -->
-    </body>
+            ?>
+            </div>
+            </body>
    <!-- <script>
         window.onload = function () {
             let inscript = document.querySelector('.inscription');

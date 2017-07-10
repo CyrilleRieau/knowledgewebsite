@@ -23,7 +23,7 @@ class Post extends Comment{
         parent::__construct($contenu, $date, $auteur, $id);
         $this->discipline = $discipline;
         $this->titre = $titre;
-        $this->tags = $tags;
+    $this->tags = $tags;
     }
     function getDiscipline() {
         return $this->discipline;

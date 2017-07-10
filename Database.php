@@ -72,7 +72,7 @@ class Database {
           } */
     }
 
-    public static function commentCreate($comment, Post $post) {
+    public static function commentCreate(Comment $comment, Post $post) {
 //        if (!is_file('./users/users.txt')) { RAjouter tableau ou donnees seront stockees et serialize ensuite après ajout
 
         if (!is_dir('./comment')) {
@@ -136,6 +136,38 @@ class Database {
         }
     }
 
+    public static function recupPost() {
+        $tab = [];
+        if (is_dir('./posts')) {
+            $users = scandir('./posts');
+            $users = array_diff($users, ['..', '.']);
+            foreach ($users as $user) {
+//$datas = unserialize($comment);
+                $postuser = scandir('./posts/' . $user);
+                $postuser = array_diff($postuser, ['..', '.']);
+
+                foreach ($postuser as $post) {
+                    if (!is_dir('./posts/' . $user . '/' . $post)) {
+                        $seripost = file_get_contents('./posts/' . $user . '/' . $post);
+                        $unserpost = unserialize($seripost);
+                        array_push($tab, $unserpost);
+                    }
+                }
+            }
+        }
+        return $tab;
+    }
+
+    public static function recupUser() {
+        
+        if (is_file('./users/users.bin')) {
+            $content = file_get_contents('./users/users.bin');
+            $unsercontent = unserialize($content);
+        return $unsercontent;
+            
+        }
+    }
+
     /*  public static function logout() {
       if (isset($_SESSION['utilisateur'])) {
       $_SESSION = [];
@@ -157,23 +189,23 @@ class Database {
 }
 
 //}
-        //}
-    //}
+//}
+//}
 
-   /* public static function formlog() {
-        echo '<h1>Connectez-vous </h1>    
-                <form action="" method="POST" >
-                    <label for="coname">Pseudo ou Mail:</label><br>
-                    <input id="coname" type="text" name="coname" /><br>
-                    <br>
-                    <label for="comdp">Mot de Passe :</label><br>
-                    <input id="comdp" type="password" name="comdp" /><br>
-                    <input type="submit" value="Send">
-                </form>
-            </section>';
-    }*/
+/* public static function formlog() {
+  echo '<h1>Connectez-vous </h1>
+  <form action="" method="POST" >
+  <label for="coname">Pseudo ou Mail:</label><br>
+  <input id="coname" type="text" name="coname" /><br>
+  <br>
+  <label for="comdp">Mot de Passe :</label><br>
+  <input id="comdp" type="password" name="comdp" /><br>
+  <input type="submit" value="Send">
+  </form>
+  </section>';
+  } */
 
 //}
 //
-                //header('location:index.php');
-                //echo '<p>Compte créé.</p>';
+//header('location:index.php');
+//echo '<p>Compte créé.</p>';

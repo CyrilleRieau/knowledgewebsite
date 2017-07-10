@@ -4,7 +4,7 @@ include_once './Comment.php';
 include_once './Post.php';
 session_start();
 $titrehid = $_POST['titrep'];
-echo $titrehid;
+//echo $titrehid;
 function createPost() {
             return new Post($_POST['commentp'], new DateTime(), $_SESSION['utilisateur'], $titrehid, $_POST['disciplinep'], $_POST['titrep'], $_POST['tagsp']);
         }
