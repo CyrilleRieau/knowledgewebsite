@@ -22,6 +22,9 @@ and open the template in the editor.
             .form-control {
                 width : 70% ;
             }
+            .bor {
+                border: 2px solid grey;
+            }
         </style>
 
     </head>
@@ -34,32 +37,20 @@ and open the template in the editor.
         include_once'./Comment.php';
         if (!isset($_SESSION['utilisateur'])) {
             ?>
-            <div class="row">
-                <div class="col-sm-4 col-sm-offset-2 col-md-3 col-md-offset-3 col-lg-4 col-lg-offset-2"><a href="inscription.php" class="inscription" >Inscription</a></div>
-                <div class="col-sm-4 col-sm-offset-2 col-md-3 col-md-offset-3 col-lg-4 col-lg-offset-2"><a href="connexion.php" class="connexion" >Connexion</a></div>
-            </div>
+            <nav class="navbar navbar-inverse row">
+                <a class="navbar-brand col-sm-4 col-sm-offset-2 col-md-3 col-md-offset-3 col-lg-4 col-lg-offset-2 inscription" href="inscription.php"><span class="glyphicon glyphicon-cog" aria-hidden="true"></span> Inscription</a>
+                <a href="connexion.php" class="navbar-brand connexion col-sm-4 col-sm-offset-2 col-md-3 col-md-offset-3 col-lg-4 col-lg-offset-2" ><span class="glyphicon glyphicon-user" aria-hidden="true"></span> Connexion</a>
+            </nav>
             <div class="row">
                 <?php
-                /*
-                foreach(Database::recupUser() as $user) {
-                ?>
-                <p><?php echo $user->getPseudo();?></p>
-                <p><?php echo $user->getBio();?></p>
-                <p><?php echo $user->getAvatar();?></p>
-                <p><?php echo $user->getAge();?></p>
-                <p><?php echo $user->getMail();?></p>
-                <p><?php echo $user->getPassword();?></p>
-                <?php }
-                 
-                 */   
                 foreach (Database::recupPost() as $unserpost) {
                     ?>
-                    <section class="col-sm-4 col-sm-offset-2 col-md-3 col-md-offset-3 col-lg-4 col-lg-offset-2" id="<?php echo $unserpost->getTitre(); ?>">
+                    <section  class="col-sm-3 col-sm-offset-1 col-md-3 col-md-offset-2 col-lg-4 col-lg-offset-1 bor" id="<?php echo $unserpost->getTitre(); ?>">
                         <h1>
-                            <a href=" postliste.php?id=<?php echo base64_encode($seripost) ?>"><?php echo $unserpost->getTitre(); ?></a>
+                            <a href=" postliste.php?id=<?php echo base64_encode(serialize($unserpost)) ?>"><?php echo $unserpost->getTitre(); ?></a>
                         </h1>
-                        <p> <?php echo $unserpost->getAuteur(); ?> </p>
-                        <p> <?php echo $unserpost->getTags(); ?> </p>
+                        <p> Auteur : <?php echo $unserpost->getAuteur(); ?> </p>
+                        <p> Tags : <?php echo $unserpost->getTags(); ?> </p>
                     </section>
                     <?php
                 }
@@ -67,12 +58,27 @@ and open the template in the editor.
             ?>
         </div>
         <?php
-        if (isset($_SESSION['utilisateur'])) {
-            echo 'Bonjour ' . $_SESSION['utilisateur'] . ', vous êtes bien connecté.';
-            ?>
-            <a href="logout.php" class ="logout">Deconnexion</a>
+        if (isset($_SESSION['utilisateur'])) { ?>
+        <nav class="navbar navbar-inverse row" ><p class="navbar-brand" style="color:white;">Bonjour <?php echo $_SESSION['utilisateur'] ?>, vous êtes bien connecté.</p>
+                <a href="logout.php" class ="navbar-brand navbar-right logout">Deconnexion</a></nav>
             <div class="row">
-                <div class="col-md-4 col-md-offset-2 form-group"><h1>Créez un post </h1>    
+                <?php
+                foreach (Database::recupPost() as $unserpost) {
+                    ?>
+                    <section class=" col-sm-3 col-sm-offset-1 col-md-3 col-md-offset-3 col-lg-4 col-lg-offset-1 bor" id="<?php echo $unserpost->getTitre(); ?>">
+                        <h1>
+                            <a href=" postliste.php?id=<?php echo base64_encode(serialize($unserpost)) ?>"><?php echo $unserpost->getTitre(); ?></a>
+                        </h1>
+                        <p> <?php echo $unserpost->getAuteur(); ?> </p>
+                        <p> <?php echo $unserpost->getTags(); ?> </p>
+
+                    </section><?php
+                }
+            ?>
+                    
+            </div>
+            <div class="row">
+                <div class="col-md-4 col-md-offset-2 form-group"><h2>Créez un post </h2>    
                     <form action="createPost.php" method="POST">
                         <label for="disciplinep">Discipline :</label><br>
                         <input class="form-control" id="disciplinep" type="text" name="disciplinep" /><br>
@@ -87,7 +93,7 @@ and open the template in the editor.
                     </form>
                 </div>
                 <div class="col-md-4 col-md-offset-2 form-group">
-                    <h1>Recherchez </h1>    
+                    <h2>Recherchez </h2>    
                     <form action="recherche.php" method="POST">
                         <label for="pseudorec">Pseudo :</label>
                         <input class="form-control" id="pseudorec" type="text" name="pseudorec" />
@@ -99,21 +105,9 @@ and open the template in the editor.
                     </form>
                 </div>
             </div>
-            <div class="row">
-                <?php
-                foreach (Database::recupPost() as $unserpost) {
-                    ?>
-                    <section class="col-sm-4 col-sm-offset-2 col-md-3 col-md-offset-3 col-lg-4 col-lg-offset-2" id="<?php echo $unserpost->getTitre(); ?>">
-                        <h1>
-                            <a href=" postliste.php?id=<?php echo base64_encode(serialize($unserpost)) ?>"><?php echo $unserpost->getTitre(); ?></a>
-                        </h1><p> <?php echo $unserpost->getAuteur(); ?> </p>
-                        <p> <?php echo $unserpost->getTags(); ?> </p>
-
-                    </section><?php
-                }
+            <?php
             }
             ?>
-            </div>
             </body>
    <!-- <script>
         window.onload = function () {

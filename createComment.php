@@ -5,8 +5,6 @@ include_once'./User.php';
 include_once'./Database.php';
 include_once'./Post.php';
 include_once'./Comment.php';
-session_start();
-
 //var_dump($_POST['post']);
 function createComment() {
    return new Comment($_POST['commentcom'], new DateTime(), $_SESSION['utilisateur'], 'bloup');
@@ -37,5 +35,5 @@ $commcom = $_POST['commentcom'];
     //}
 //}
                         //}
-header('location:affichePost.php');
+header('location:postliste.php');
 ?>

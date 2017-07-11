@@ -34,23 +34,23 @@
             $postuser = $modpost->getAuteur();
             if (is_file('./posts/' . ($_SESSION['utilisateur']) . '/' . ($datepost->format('d-m-Y H:i:s')) . '.bin')) {
     ?>
-                <form action="" method="POST">
+                <form class="form-group" action="" method="POST">
                     <input type="hidden" value="<?php echo ($_GET['postmodif']) ?>" name="post">
                     <label for="disciplinepo">Discipline :</label><br>
-                    <input id="disciplinepo" type="text" name="disciplinepo" /><br>
+                    <input class="form-control" id="disciplinepo" type="text" name="disciplinepo" /><br>
                     <label for="titrepo">Titre :</label><br>
-                    <input id="titrepo" type="text" name="titrepo" /><br>
+                    <input class="form-control" id="titrepo" type="text" name="titrepo" /><br>
                     <input id="titrepohid" type="hidden" name="titrepohid" /><br>
                     <label for="tagspo">Mots-clés :</label><br>
-                    <input id="tagspo" type="text" name="tagspo" /><br>
+                    <input class="form-control" id="tagspo" type="text" name="tagspo" /><br>
                     <label for="commentpo">Commentaire :</label><br>
-                    <textarea id = "commentpo" name = "commentpo" rows = "4" cols = "50"></textarea><br>
-                    <input type = "submit" value = "Modifier">
+                    <textarea class="form-control" id="commentpo" name="commentpo" rows="4" cols="50"></textarea><br>
+                    <input class="btn btn-default" type="submit" value="Modifier">
                 </form>    
                 <?php
             }
         }
         ?>
-        <a href="affichePost.php">Retour</a>
+        <a href="postliste.php">Retour</a>
     </body>
 </html>

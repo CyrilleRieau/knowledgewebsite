@@ -15,7 +15,7 @@ and open the template in the editor.
             }
             </style>
     </head>
-    <body>
+    <body class="container-fluid">
         <?php
         session_start();
         ?>

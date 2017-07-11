@@ -22,7 +22,7 @@ if(isset($_POST['fpost']))  {
     }
 }
 
-header('location:affichePost.php');
+header('location:postliste.php');
 ?>
 <a href="affichePost.php">Retour</a>
 
