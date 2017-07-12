@@ -1,8 +1,6 @@
 <?php
-include_once './Database.php';
-include_once './User.php';
-include_once './Comment.php';
-include_once './Post.php';
+        include_once 'header.php';
+
 session_start();
 if (!isset($_POST['coname']) || !isset($_POST['comdp'])) {
     echo 'Utilisateur inexistant.';
@@ -14,10 +12,8 @@ if ($_POST['coname'] == "" && $_POST['comdp'] == "") {
 }
 $coname = $_POST['coname'];
 $comdp = md5($_POST['comdp']);
-if (is_file('./users/users.bin')) {
-    $content = file_get_contents('./users/users.bin');
-    $unsercontent = unserialize($content);
-    foreach ($unsercontent as $user) {
+
+    foreach (Database::recupUser() as $user) {
         if (($user->getPseudo() == $coname || $user->getMail() == $coname) && $user->getPassword() == $comdp) {
             $_SESSION['utilisateur'] = $coname;
             //echo 'Bonjour ' . htmlspecialchars($_SESSION['utilisateur']) . ', vous êtes bien connecté.';
@@ -27,7 +23,7 @@ if (is_file('./users/users.bin')) {
             //echo '<form method="POST" action="logout.php"><button>Deconnexion</button></form>';
             header('location: index.php');
         }
-    }
+    
     echo 'Les identifiants ne sont pas corrects.';
     echo '<a href="index.php">Retour</a>';
 }

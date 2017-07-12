@@ -11,9 +11,8 @@
  *
  * @author rieau
  */
-include_once './User.php';
-include_once './Comment.php';
-include_once './Post.php';
+include_once 'header.php';
+
 session_start();
 
 class Database {
@@ -59,19 +58,6 @@ class Database {
       }
      */
 
-    public function getUser() {
-        $file = ('./users/users.bin');
-        /* for {
-          $user = file_get_contents($file);
-          return $useru = unserialize($user);
-          } */
-        /* foreach($user as $u) {
-          if (!isset($u)) {
-          User::class($u);
-          }
-          } */
-    }
-
     public static function commentCreate(Comment $comment, Post $post) {
 //        if (!is_file('./users/users.txt')) { RAjouter tableau ou donnees seront stockees et serialize ensuite après ajout
 
@@ -79,14 +65,10 @@ class Database {
             mkdir('./comment');
         }if (!is_dir('./comment/' . $post->getDate()->format('d-m-Y H:i:s'))) {
             mkdir('./comment/' . $post->getDate()->format('d-m-Y H:i:s'));
-
-
             $d = new DateTime();
             $file = fopen('./comment/' . $post->getDate()->format('d-m-Y H:i:s') . '/' . ($d->format('d-m-Y H:i:s')) . '.bin', 'w+');
-
             fwrite($file, serialize($comment));
             fclose($file);
-            echo '<p>Commentaire créé.</p>';
         } else {
 //$d->format('Y-m-d H:i:s');
             $d = new DateTime();
@@ -94,7 +76,6 @@ class Database {
                 $file = fopen('./comment/' . $post->getDate()->format('d-m-Y H:i:s') . '/' . ($d->format('d-m-Y H:i:s')) . '.bin', 'w+');
                 fwrite($file, serialize($comment));
                 fclose($file);
-                echo '<p>Commentaire créé.</p>';
             }
             /* else {
               $datas = file_get_contents('./comment/'.$_POST['pseudo'].DateTime.'.txt');
@@ -159,12 +140,41 @@ class Database {
     }
 
     public static function recupUser() {
-        
+
         if (is_file('./users/users.bin')) {
             $content = file_get_contents('./users/users.bin');
             $unsercontent = unserialize($content);
-        return $unsercontent;
-            
+            return $unsercontent;
+        }
+    }
+
+    public static function recupContent($post) {
+        $tab = [];
+        if (is_dir('./comment/' . $post->getDate()->format('d-m-Y H:i:s'))) {
+            $commentss = scandir('./comment/' . $post->getDate()->format('d-m-Y H:i:s'));
+            $commentss = array_diff($commentss, ['..', '.', '.txt']);
+            foreach ($commentss as $comments) {
+
+                // if (is_dir('./comment/' . $comments)) {
+                //$datas = unserialize($comment);
+                //        $comtuser = scandir('./comment/' . $comments);
+                //      $comtuser = array_diff($comtuser, ['..', '.']);
+                //    foreach ($comtuser as $comt) {
+                //      if (!is_dir('./comment/' . $comments . '/' . $comt)) {
+
+                $sericomt = file_get_contents('./comment/' . $post->getDate()->format('d-m-Y H:i:s') . '/' . $comments);
+                $unsercomt = unserialize($sericomt);
+                array_push($tab, $unsercomt);
+            }
+        }
+        return $tab;
+    }
+
+    public static function modifCom(Comment $com, Comment $anciencom, Post $post) {
+        if (is_file('./comment/' . ($post->getDate()->format('d-m-Y H:i:s')) . '/' . ($anciencom->getDate()->format('d-m-Y H:i:s'))) . '.bin') {
+            $file = fopen('./comment/' . ($post->getDate()->format('d-m-Y H:i:s')) . '/' . ($anciencom->getDate()->format('d-m-Y H:i:s')) . '.bin', 'w+');
+            fwrite($file, serialize($com));
+            fclose($file);
         }
     }
 
@@ -203,9 +213,8 @@ class Database {
   <input type="submit" value="Send">
   </form>
   </section>';
-  } */
+  } 
 
 //}
 //
-//header('location:index.php');
-//echo '<p>Compte créé.</p>';
+//header('location:index.php'); */

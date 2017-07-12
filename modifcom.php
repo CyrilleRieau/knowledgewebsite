@@ -2,14 +2,16 @@
     <head>
         <meta charset="UTF-8">
         <title>Modif Commentaire</title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+        <style>
+            .wod {
+                width: 75%;
+            }
+        </style>
     </head>
     <body>
-        <?php
-        include_once './Database.php';
-        include_once './User.php';
-        include_once './Comment.php';
-        include_once './Post.php';
-        session_start();
+        <?php        
+        include_once 'header.php';
 
         if (isset($_POST['post']) && isset($_POST['commentcom'])) {
          $y = unserialize(base64_decode($_GET['cpost']));
@@ -18,14 +20,15 @@
             $e = $z->getDate();
            
             $com = new Comment($_POST['commentcom'], $d, $_SESSION['utilisateur'], 'bloup');
-            
-            if (is_file('./comment/' . ($e->format('d-m-Y H:i:s')) . '/' . ($d->format('d-m-Y H:i:s'))).'.bin') {
+            Database::modifCom($com, $y, $z);
+            /*if (is_file('./comment/' . ($e->format('d-m-Y H:i:s')) . '/' . ($d->format('d-m-Y H:i:s'))).'.bin') {
                 $file = fopen('./comment/' . ($e->format('d-m-Y H:i:s')) . '/' . ($d->format('d-m-Y H:i:s')).'.bin', 'w');
                 fwrite($file, serialize($com));
                 fclose($file);
+                */
                 echo 'Vous avez modifié le fichier.';
             }
-        }
+        
 
         if (isset($_GET['cpost']) && isset($_GET['comfpost'])) {
             
@@ -40,7 +43,7 @@
                     <input type="hidden" value="<?php echo ($_GET['comfpost']) ?>" name="post">
                     <input type="hidden" value="<?php echo ($_GET['cpost']) ?>" name="comment">
                     <label for="comment">Commentaire :</label><br>
-                    <textarea class="form-control" id="commentcom" name="commentcom" rows="4" cols="50"></textarea><br>
+                    <textarea class="form-control wod" id="commentcom" name="commentcom" rows="4" cols="50"></textarea><br>
                     <input class="btn btn-default" type="submit" value="Modifier">
 
     <?php

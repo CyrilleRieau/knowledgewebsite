@@ -13,16 +13,13 @@ and open the template in the editor.
     </head>
     <body class="container-fluid">
         <?php
-        include_once './Database.php';
-        include_once './User.php';
-        include_once './Comment.php';
-        include_once './Post.php';
+        include_once 'header.php';
         ?>
         <div class="row">
             <?php
             foreach (Database::recupPost() as $unserpost) {
                 ?>
-                <section class="col-sm-4 col-sm-offset-2 col-md-3 col-md-offset-3 col-lg-4 col-lg-offset-2" id="<?php echo $unserpost->getTitre(); ?>"><h1><a href=" postliste.php?id=<?php echo base64_encode(serialize($unserpost)) ?>"><?php echo $unserpost->getTitre(); ?></a>
+                <section class="col-sm-4 col-sm-offset-2 col-md-3 col-md-offset-3 col-lg-4 col-lg-offset-2" id="<?php echo $unserpost->getTitre(); ?>"><h1><a href="postliste.php?id=<?php echo base64_encode(serialize($unserpost)) ?>"><?php echo $unserpost->getTitre(); ?></a>
                      </h1>
 
                     <p> <?php echo $unserpost->getAuteur(); ?> </p>

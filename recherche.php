@@ -11,11 +11,8 @@ and open the template in the editor.
         <title>Recherche</title>
     </head>
     <body>
-        <?php
-        include_once './Database.php';
-        include_once './User.php';
-        include_once './Comment.php';
-        include_once './Post.php';
+        <?php        include_once 'header.php';
+
 
         if (!isset($_POST['pseudorec']) && (!isset($_POST['pseudorec']))) {
             echo 'Pas de champs remplis';

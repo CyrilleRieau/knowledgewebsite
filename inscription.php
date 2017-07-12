@@ -17,6 +17,8 @@ and open the template in the editor.
     </head>
     <body>
         <?php
+                include_once 'header.php';
+
         session_start();
         ?>
         <section class="formconn form-group">

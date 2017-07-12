@@ -17,6 +17,8 @@ and open the template in the editor.
     </head>
     <body class="container-fluid">
         <?php
+                include_once 'header.php';
+
         session_start();
         ?>
         <section class="forminsc form-group">

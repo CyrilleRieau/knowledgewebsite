@@ -1,7 +1,7 @@
 <?php
 
-include_once'./User.php';
-include_once'./Database.php';
+include_once 'header.php';
+
 session_start();
 
 /* $pseudo = htmlspecialchars($_POST['pseudo']);
@@ -29,23 +29,20 @@ if (!isset($_POST['pseudo']) || !isset($_POST['pass']) || !isset($_POST['mail'])
     echo 'Utilisateur inexistant.';
     exit(1);
 }
-if ($_POST['pseudo'] == "" && $_POST['pass'] == "" && $_POST['mail']=="") {
+if ($_POST['pseudo'] == "" && $_POST['pass'] == "" && $_POST['mail'] == "") {
     echo 'Utilisateur n\'est pas correct.';
     exit(1);
 }
 $coname = $_POST['pseudo'];
 $comdp = md5(htmlspecialchars($_POST['pass']));
 $comail = $_POST['mail'];
-if (is_file('./users/users.bin')) {
-    $content = file_get_contents('./users/users.bin');
-    $unsercontent = unserialize($content);
-    
-    foreach ($unsercontent as $user) {
-        if (($user->getPseudo() == $coname || $user->getMail() == $comail) && $user->getPassword() == $comdp) {
-            $_SESSION['utilisateur'] = $coname;
-        }
+
+foreach (Database::recupUser() as $user) {
+    if (($user->getPseudo() == $coname || $user->getMail() == $comail) && $user->getPassword() == $comdp) {
+        $_SESSION['utilisateur'] = $coname;
     }
 }
+
 header('location:index.php');
 //serialize et unserialize
 //}

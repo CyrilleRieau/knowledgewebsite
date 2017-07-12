@@ -1,7 +1,6 @@
 <?php
-include_once './Database.php';
-include_once './Comment.php';
-include_once './Post.php';
+        include_once 'header.php';
+
 session_start();
 $titrehid = $_POST['titrep'];
 //echo $titrehid;

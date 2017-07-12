@@ -31,13 +31,10 @@ and open the template in the editor.
     <body class="container-fluid">      
 
         <?php
-        include_once'./Post.php';
-        include_once'./User.php';
-        include_once'./Database.php';
-        include_once'./Comment.php';
+        include_once 'header.php';
         if (!isset($_SESSION['utilisateur'])) {
             ?>
-            <nav class="navbar navbar-inverse row">
+        <nav class="navbar navbar-inverse row">
                 <a class="navbar-brand col-sm-4 col-sm-offset-2 col-md-3 col-md-offset-3 col-lg-4 col-lg-offset-2 inscription" href="inscription.php"><span class="glyphicon glyphicon-cog" aria-hidden="true"></span> Inscription</a>
                 <a href="connexion.php" class="navbar-brand connexion col-sm-4 col-sm-offset-2 col-md-3 col-md-offset-3 col-lg-4 col-lg-offset-2" ><span class="glyphicon glyphicon-user" aria-hidden="true"></span> Connexion</a>
             </nav>

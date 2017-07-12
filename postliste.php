@@ -13,11 +13,8 @@ and open the template in the editor.
     </head>
 
     <body class="container-fluid">
-        <?php
-        include_once './Database.php';
-        include_once './User.php';
-        include_once './Comment.php';
-        include_once './Post.php';
+        <?php        include_once 'header.php';
+
         ?>
         <?php
         if (isset($_GET['id'])) {
@@ -32,11 +29,11 @@ and open the template in the editor.
 
             <?php if ($_SESSION['utilisateur'] == $unserpost->getAuteur()) { ?>
                 <form class="form-group" action="deletePost.php" method="POST">
-                    <input type="hidden" value="<?php echo base64_encode($seripost) ?>" name="fpost">
+                    <input type="hidden" value="<?php echo base64_encode(serialize($unserpost)) ?>" name="fpost">
                     <input class="btn btn-default" type="submit" value="Supprimer">
                 </form>
                 <form class="form-group" action="modifPost.php" method="GET">
-                    <input type="hidden" value="<?php echo base64_encode($seripost) ?>" name="postmodif">
+                    <input type="hidden" value="<?php echo base64_encode(serialize($unserpost)) ?>" name="postmodif">
                     <input class="btn btn-default" type="submit" value="Modifier">
                 </form>
             <?php } ?>
@@ -61,23 +58,9 @@ and open the template in the editor.
                     echo 'Pas de commentaire.';
                     exit(1);
                 }
-                if (is_dir('./comment/' . $unserpost->getDate()->format('d-m-Y H:i:s'))) {
-                    $commentss = scandir('./comment/' . $unserpost->getDate()->format('d-m-Y H:i:s'));
-
-                    $commentss = array_diff($commentss, ['..', '.', '.txt']); ?>
-                    <section class="col-sm-8 col-md-8 col-lg-8">
-                        <?php
-                    foreach ($commentss as $comments) {
-
-                        // if (is_dir('./comment/' . $comments)) {
-                        //$datas = unserialize($comment);
-                        //        $comtuser = scandir('./comment/' . $comments);
-                        //      $comtuser = array_diff($comtuser, ['..', '.']);
-                        //    foreach ($comtuser as $comt) {
-                        //      if (!is_dir('./comment/' . $comments . '/' . $comt)) {
-
-                        $sericomt = file_get_contents('./comment/' . $unserpost->getDate()->format('d-m-Y H:i:s') . '/' . $comments);
-                        $unsercomt = unserialize($sericomt);
+                ?>
+                <section class="col-sm-8 col-md-8 col-lg-8">
+                    <?php foreach (Database::recupContent($unserpost) as $unsercomt) {
                         ?>
                         <section class="col-sm-4 col-md-4 col-lg-4" id="<?php echo $unsercomt->getDate()->format('d-m-Y H:i:s'); ?>">
                             <?php
@@ -86,41 +69,36 @@ and open the template in the editor.
 
                             <p > <?php echo $unsercomt->getContenu(); ?> </p>
                             <p> <?php echo $unsercomt->getAuteur(); ?> </p>
-                            <p> <?php echo $unsercomt->getDate()->format('d-m-Y H:i:s');
-                            ?> </p>
+                            <p> <?php echo $unsercomt->getDate()->format('d-m-Y H:i:s'); ?></p>
+
                             <?php if ($_SESSION['utilisateur'] == $unsercomt->getAuteur()) { ?>
                                 <form class="form-group" action="deleteComment.php" method="POST">
-                                    <input type="hidden" value="<?php echo base64_encode($sericomt) ?>" name="cpost">
+                                    <input type="hidden" value="<?php echo base64_encode(serialize($unsercomt)) ?>" name="cpost">
                                     <input type="hidden" value="<?php echo base64_encode(serialize($unserpost)) ?>" name="comfpost">
                                     <input class="btn btn-default" type="submit" value="Supprimer">
                                 </form>
 
                                 <form class="form-group" action="modifcom.php" method="GET">
-                                    <input type="hidden" value="<?php echo base64_encode($sericomt) ?>" name="cpost">
+                                    <input type="hidden" value="<?php echo base64_encode(serialize($unsercomt)) ?>" name="cpost">
                                     <input type="hidden" value="<?php echo base64_encode(serialize($unserpost)) ?>" name="comfpost">
                                     <input class="btn btn-default" type="submit" value="Modifier">
                                 </form>
-</section>
-
                                 <?php
                             }
-                        }
+                            ?>
+                        </section>
+                        <?php
+                    }
                     ?>
-                    </section>  
-                      <?php      
-                      
-                            }
-                    ?>
-                
-           
-        </div> 
-        <?php
-    }
-    if (!isset($_GET['id'])) {
-        header('location:affichePost.php');
-    }
-    ?>
+                </section>  
+            </div> 
+            <?php
+        }
+        if (!isset($_GET['id'])) {
+            header('location:affichePost.php');
+        }
+        ?>
 
-    <a href="affichePost.php">Retour</a>             
-</body>
+        <a href="affichePost.php">Retour</a>             
+    </body>
 </html>
