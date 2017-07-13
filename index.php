@@ -55,8 +55,9 @@ and open the template in the editor.
             ?>
         </div>
         <?php
-        if (isset($_SESSION['utilisateur'])) { ?>
-        <nav class="navbar navbar-inverse row" ><p class="navbar-brand" style="color:white;">Bonjour <?php echo $_SESSION['utilisateur'] ?>, vous êtes bien connecté.</p>
+        if (isset($_SESSION['utilisateur'])) { 
+            ?>
+        <nav class="navbar navbar-inverse row" ><p class="navbar-brand" style="color:white;">Bonjour <a href="afficheUser.php?id=<?php echo $_SESSION['utilisateur'] ?>"><?php echo $_SESSION['utilisateur'] ?></a>, vous êtes bien connecté.</p>
                 <a href="logout.php" class ="navbar-brand navbar-right logout">Deconnexion</a></nav>
             <div class="row">
                 <?php

@@ -23,14 +23,12 @@
                 $tagspostmod = $postmod->getTags();
                 $titrepostmod = $postmod->getTitre();
                 $post = new Post($_POST['commentpo'], $datepostmod, $_SESSION['utilisateur'], $_POST['titrepo'], $_POST['disciplinepo'], $_POST['titrepo'], $_POST['tagspo']);
-                if (is_file('./posts/' . $_SESSION['utilisateur'] . '/' . ($datepostmod->format('d-m-Y H:i:s'))) . '.bin') {
-                    $file = fopen('./posts/' . $_SESSION['utilisateur'] . '/' . ($datepostmod->format('d-m-Y H:i:s')) . '.bin', 'w+');
-                    fwrite($file, serialize($post));
-                    fclose($file);
-                    
+                
+                Database::modifPost($_SESSION['utilisateur'], $postmod, $post);
+ 
                     header("location:postliste.php");
                     echo 'Vous avez modifié le fichier.';
-                }
+                
             }
         
         if (isset($_GET['postmodif'])) {

@@ -18,31 +18,37 @@ session_start();
 //if (is_file('./users/' . $user . '.txt')) {
 //  serialize($user);
 //} else {
-function createUser() {
-    return new User($_POST['pseudo'], $_POST['bio'], $_POST['avatar'], $_POST['age'], $_POST['mail'], md5(htmlspecialchars($_POST['pass'])));
-}
-
-Database::userCreate(createUser());
-
-
-if (!isset($_POST['pseudo']) || !isset($_POST['pass']) || !isset($_POST['mail'])) {
-    echo 'Utilisateur inexistant.';
-    exit(1);
-}
-if ($_POST['pseudo'] == "" && $_POST['pass'] == "" && $_POST['mail'] == "") {
-    echo 'Utilisateur n\'est pas correct.';
-    exit(1);
-}
-$coname = $_POST['pseudo'];
-$comdp = md5(htmlspecialchars($_POST['pass']));
-$comail = $_POST['mail'];
-
 foreach (Database::recupUser() as $user) {
-    if (($user->getPseudo() == $coname || $user->getMail() == $comail) && $user->getPassword() == $comdp) {
-        $_SESSION['utilisateur'] = $coname;
+    if ($user->getPseudo() == $_POST['pseudo'] && $user->getBio() == $_POST['bio'] && $user->getAvatar() == $_POST['avatar'] && $user->getAge() == $_POST['age'] && $user->getMail() == $_POST['mail'] && $user->getPassword() == md5(htmlspecialchars($_POST['pass']))) {
+        echo 'Utilisateur déjà existant.';
+        exit(1);
+    }
+
+    function createUser() {
+        return new User($_POST['pseudo'], $_POST['bio'], $_POST['avatar'], $_POST['age'], $_POST['mail'], md5(htmlspecialchars($_POST['pass'])));
+    }
+
+    Database::userCreate(createUser());
+
+
+    if (!isset($_POST['pseudo']) || !isset($_POST['pass']) || !isset($_POST['mail'])) {
+        echo 'Utilisateur inexistant.';
+        exit(1);
+    }
+    if ($_POST['pseudo'] == "" && $_POST['pass'] == "" && $_POST['mail'] == "") {
+        echo 'Utilisateur n\'est pas correct.';
+        exit(1);
+    }
+    $coname = $_POST['pseudo'];
+    $comdp = md5(htmlspecialchars($_POST['pass']));
+    $comail = $_POST['mail'];
+
+    foreach (Database::recupUser() as $user) {
+        if (($user->getPseudo() == $coname || $user->getMail() == $comail) && $user->getPassword() == $comdp) {
+            $_SESSION['utilisateur'] = $coname;
+        }
     }
 }
-
 header('location:index.php');
 //serialize et unserialize
 //}

@@ -31,7 +31,6 @@ class Database {
         if (!is_dir('./users')) {
             mkdir('./users');
         } else {
-
             $tab = [];
             if (!is_file('./users/users.bin')) {
                 $file = fopen('./users/users.bin', 'w+');
@@ -174,6 +173,14 @@ class Database {
         if (is_file('./comment/' . ($post->getDate()->format('d-m-Y H:i:s')) . '/' . ($anciencom->getDate()->format('d-m-Y H:i:s'))) . '.bin') {
             $file = fopen('./comment/' . ($post->getDate()->format('d-m-Y H:i:s')) . '/' . ($anciencom->getDate()->format('d-m-Y H:i:s')) . '.bin', 'w+');
             fwrite($file, serialize($com));
+            fclose($file);
+        }
+    }
+
+    public static function modifPost($user, Post $ancienpost, Post $post) {
+        if (is_file('./posts/' . $user . '/' . ($ancienpost->getDate()->format('d-m-Y H:i:s'))) . '.bin') {
+            $file = fopen('./posts/' . $user . '/' . ($ancienpost->getDate()->format('d-m-Y H:i:s')) . '.bin', 'w+');
+            fwrite($file, serialize($post));
             fclose($file);
         }
     }

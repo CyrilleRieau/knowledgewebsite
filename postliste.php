@@ -9,7 +9,13 @@ and open the template in the editor.
         <meta charset="UTF-8">
         <title>Affichage Post</title>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-
+        <style>
+            .contenu {
+                width: 70%;
+                height : 100px;
+                overflow : scroll;
+            }
+        </style>
     </head>
 
     <body class="container-fluid">
@@ -24,7 +30,7 @@ and open the template in the editor.
             <p> Auteur : <?php echo $unserpost->getAuteur(); ?> </p>
             <p> <?php echo $unserpost->getDate()->format('d-m-Y H:i:s'); ?> </p>
             <p> Tags : <?php echo $unserpost->getTags(); ?> </p>
-            <p style="border:2px gainsboro solid"> <?php echo $unserpost->getContenu(); ?> </p>
+            <p class="contenu" style="border:2px gainsboro solid"> <?php echo $unserpost->getContenu(); ?> </p>
 
 
             <?php if ($_SESSION['utilisateur'] == $unserpost->getAuteur()) { ?>
