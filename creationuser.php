@@ -18,12 +18,12 @@ session_start();
 //if (is_file('./users/' . $user . '.txt')) {
 //  serialize($user);
 //} else {
-foreach (Database::recupUser() as $user) {
+/*foreach (Database::recupUser() as $user) {
     if ($user->getPseudo() == $_POST['pseudo'] && $user->getBio() == $_POST['bio'] && $user->getAvatar() == $_POST['avatar'] && $user->getAge() == $_POST['age'] && $user->getMail() == $_POST['mail'] && $user->getPassword() == md5(htmlspecialchars($_POST['pass']))) {
         echo 'Utilisateur déjà existant.';
         exit(1);
     }
-
+*/
     function createUser() {
         return new User($_POST['pseudo'], $_POST['bio'], $_POST['avatar'], $_POST['age'], $_POST['mail'], md5(htmlspecialchars($_POST['pass'])));
     }
@@ -48,7 +48,7 @@ foreach (Database::recupUser() as $user) {
             $_SESSION['utilisateur'] = $coname;
         }
     }
-}
+
 header('location:index.php');
 //serialize et unserialize
 //}

@@ -1,20 +1,23 @@
 <?php
 include_once 'header.php';
 session_start();
+// Probleme dans les tableaux, avec création de plusieurs tableaux... Probleme à cause de la boucle;
 
 if (isset($_POST['duser'])) {
     $y = unserialize(base64_decode($_POST['duser']));
-    var_dump($y);
+    $tab = [];
     foreach (Database::recupUser() as $user) {
         if ($y->getPseudo() !== $user->getPseudo()) {
-            echo 'lol';
-            unlink($y); //trouver méthode qui supprime l'objet; Genre faire un tableau des valeurs précédentes, dans le style modif
-            //$_SESSION = [];
-            //session_destroy();
+            array_push($tab, $user);
         }
-    } 
-        echo 'le fichier n\'existe pas';
-    
+        var_dump($tab);
+        $file = fopen('./users/users.bin', 'w+');
+        fwrite($file, serialize($tab));
+        fclose($file);
+        $_SESSION = [];
+        session_destroy();
+    }
+    echo 'le fichier n\'existe pas';
 }
 //header('location:index.php');
 ?>
