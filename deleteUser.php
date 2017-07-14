@@ -1,14 +1,14 @@
 <?php
 include_once 'header.php';
-// Probleme : ne supprime pas le nom et impossible d'accéder à la valeur...
+// Probleme : illegal offset...
 
 if (isset($_POST['duser'])) {
     $y = unserialize(base64_decode($_POST['duser']));
-    $tab = [];
-    
-    foreach (Database::recupUser() as $user) {
+    $users = Database::recupUser();
+    var_dump($users);
+    foreach ($users as $user) {
         if ($y->getPseudo() == $user->getPseudo()) {
-            unset(Database::recupUser() , $user);
+            unset($users[$user]);
 /*                array_push($tab, $user);
               }
               var_dump($tab);
@@ -21,6 +21,7 @@ if (isset($_POST['duser'])) {
         */}
     //    echo 'le fichier n\'existe pas';
     }
+     var_dump(Database::recupUser());
 }
  
 //header('location:index.php');
