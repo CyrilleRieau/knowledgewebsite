@@ -12,7 +12,6 @@ if ($_POST['coname'] == "" && $_POST['comdp'] == "") {
 }
 $coname = $_POST['coname'];
 $comdp = md5($_POST['comdp']);
-
     foreach (Database::recupUser() as $user) {
         if (($user->getPseudo() == $coname || $user->getMail() == $coname) && $user->getPassword() == $comdp) {
             $_SESSION['utilisateur'] = $coname;
