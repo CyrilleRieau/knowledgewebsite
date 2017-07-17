@@ -185,6 +185,37 @@ class Database {
         }
     }
 
+    public static function modifUser(User $olduser, User $newuser) {
+        $users = Database::recupUser();
+                foreach ($users as $key => $user) {
+                    if ($olduser->getPseudo() == $user->getPseudo()) {
+                        array_splice($users, $key);
+                    }
+                }
+                $file = fopen('./users/users.bin', 'w+');
+                array_push($users, $newuser);
+                fwrite($file, serialize($users));
+                fclose($file);
+
+    }
+    
+    public static function deleteUser($post) {
+        $y = unserialize(base64_decode($post));
+        $users = Database::recupUser();
+
+        foreach ($users as $key => $user) {
+            if ($y->getPseudo() == $user->getPseudo()) {
+                array_splice($users, $key);
+            }
+        }
+        $file = fopen('./users/users.bin', 'w+');
+        fwrite($file, serialize($users));
+        fclose($file);
+
+        $_SESSION = [];
+        session_destroy();
+    }
+
     /*  public static function logout() {
       if (isset($_SESSION['utilisateur'])) {
       $_SESSION = [];

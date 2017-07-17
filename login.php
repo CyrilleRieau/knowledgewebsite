@@ -1,5 +1,5 @@
 <?php
-        include_once 'header.php';
+include_once 'header.php';
 
 session_start();
 if (!isset($_POST['coname']) || !isset($_POST['comdp'])) {
@@ -12,20 +12,19 @@ if ($_POST['coname'] == "" && $_POST['comdp'] == "") {
 }
 $coname = $_POST['coname'];
 $comdp = md5($_POST['comdp']);
-    foreach (Database::recupUser() as $user) {
-        if (($user->getPseudo() == $coname || $user->getMail() == $coname) && $user->getPassword() == $comdp) {
-            $_SESSION['utilisateur'] = $coname;
-            //echo 'Bonjour ' . htmlspecialchars($_SESSION['utilisateur']) . ', vous êtes bien connecté.';
-            //echo '<form method="POST" action=""><button class = "logout">Deconnexion</button></form>';
-            //echo '</section>';
-            //echo 'Vous êtes bien connecté ' . htmlspecialchars($_SESSION['utilisateur']) . '.';
-            //echo '<form method="POST" action="logout.php"><button>Deconnexion</button></form>';
-            header('location: index.php');
-        }
-    
-    echo 'Les identifiants ne sont pas corrects.';
-    echo '<a href="index.php">Retour</a>';
+foreach (Database::recupUser() as $user) {
+    if (($user->getPseudo() == $coname || $user->getMail() == $coname) && $user->getPassword() == $comdp) {
+        $_SESSION['utilisateur'] = $coname;
+        //echo 'Bonjour ' . htmlspecialchars($_SESSION['utilisateur']) . ', vous êtes bien connecté.';
+        //echo '<form method="POST" action=""><button class = "logout">Deconnexion</button></form>';
+        //echo '</section>';
+        //echo 'Vous êtes bien connecté ' . htmlspecialchars($_SESSION['utilisateur']) . '.';
+        //echo '<form method="POST" action="logout.php"><button>Deconnexion</button></form>';
+        header('location: index.php');
+    }
 }
+echo 'Les identifiants ne sont pas corrects.';
+echo '<a href="index.php">Retour</a>';
 /* $file = 'auth.json';
   $json = file_get_contents($file);
   $obj = json_decode($json);
