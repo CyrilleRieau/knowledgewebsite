@@ -11,7 +11,7 @@ CREATE TABLE `user` (
     avatar BLOB,
     age DATE NOT NULL,
     mail VARCHAR(64) NOT NULL,
-    password VARCHAR(1024) NOT NULL,
+    password VARCHAR(1024) NOT NULL
 );
 
 CREATE TABLE `post` (
@@ -24,8 +24,8 @@ CREATE TABLE `post` (
     tags VARCHAR(1056) NOT NULL,
     upvotes INT,
     downvotes INT,
-    `user`_id INT,
-    FOREIGN KEY (`user`_id) REFERENCES `user`(id)
+    user_id INT,
+    FOREIGN KEY (user_id) REFERENCES `user`(id)
 );
 
 CREATE TABLE `comment` (
@@ -36,7 +36,7 @@ CREATE TABLE `comment` (
     upvotes INT,
     downvotes INT,
     post_id INT,
-    `user`_id INT,
+    user_id INT,
     FOREIGN KEY (post_id) REFERENCES post(id),
-    FOREIGN KEY (`user`_id) REFERENCES `user`(id)
+    FOREIGN KEY (user_id) REFERENCES `user`(id)
 );
