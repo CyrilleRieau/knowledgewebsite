@@ -1,7 +1,5 @@
 <?php
 include_once 'header.php';
-
-session_start();
 if (!isset($_POST['coname']) || !isset($_POST['comdp'])) {
     echo 'Utilisateur inexistant.';
     exit(1);

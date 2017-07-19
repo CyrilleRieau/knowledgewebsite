@@ -1,3 +1,7 @@
+<?php
+session_start();
+?>
+<!DOCTYPE html>
 <html>
     <head>
         <meta charset="UTF-8">
@@ -10,28 +14,28 @@
         </style>
     </head>
     <body>
-        <?php        
+        <?php
         include_once 'header.php';
 
         if (isset($_POST['post']) && isset($_POST['commentcom'])) {
-         $y = unserialize(base64_decode($_GET['cpost']));
+            $y = unserialize(base64_decode($_GET['cpost']));
             $z = unserialize(base64_decode($_GET['comfpost']));
             $d = $y->getDate();
             $e = $z->getDate();
-           
+
             $com = new Comment($_POST['commentcom'], $d, $_SESSION['utilisateur'], 'bloup');
             $db->modifCom($com, $y, $z);
-            /*if (is_file('./comment/' . ($e->format('d-m-Y H:i:s')) . '/' . ($d->format('d-m-Y H:i:s'))).'.bin') {
-                $file = fopen('./comment/' . ($e->format('d-m-Y H:i:s')) . '/' . ($d->format('d-m-Y H:i:s')).'.bin', 'w');
-                fwrite($file, serialize($com));
-                fclose($file);
-                */
-                echo 'Vous avez modifié le fichier.';
-            }
-        
+            /* if (is_file('./comment/' . ($e->format('d-m-Y H:i:s')) . '/' . ($d->format('d-m-Y H:i:s'))).'.bin') {
+              $file = fopen('./comment/' . ($e->format('d-m-Y H:i:s')) . '/' . ($d->format('d-m-Y H:i:s')).'.bin', 'w');
+              fwrite($file, serialize($com));
+              fclose($file);
+             */
+            echo 'Vous avez modifié le fichier.';
+        }
+
 
         if (isset($_GET['cpost']) && isset($_GET['comfpost'])) {
-            
+
             $y = unserialize(base64_decode($_GET['cpost']));
             $z = unserialize(base64_decode($_GET['comfpost']));
             $d = $y->getDate();
@@ -46,10 +50,10 @@
                     <textarea class="form-control wod" id="commentcom" name="commentcom" rows="4" cols="50"></textarea><br>
                     <input class="btn btn-default" type="submit" value="Modifier">
 
-    <?php
-    }
-}
-?>
+                    <?php
+                }
+            }
+            ?>
             <a href="postliste.php">Retour</a>
     </body>
 </html>

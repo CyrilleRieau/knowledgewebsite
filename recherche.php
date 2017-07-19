@@ -1,3 +1,7 @@
+<?php
+session_start();
+?>
+<!DOCTYPE html>
 <!DOCTYPE html>
 <!--
 To change this license header, choose License Headers in Project Properties.
@@ -11,8 +15,8 @@ and open the template in the editor.
         <title>Recherche</title>
     </head>
     <body>
-        <?php        include_once 'header.php';
-
+        <?php
+        include_once 'header.php';
 
         if (!isset($_POST['pseudorec']) && (!isset($_POST['pseudorec']))) {
             echo 'Pas de champs remplis';
@@ -71,8 +75,7 @@ and open the template in the editor.
                     foreach ($posts as $post) {
                         if (is_file('./posts/' . $_POST['pseudorec'] . '/' . $post)) {
                             $datas = file_get_contents('./posts/' . $_POST['pseudorec'] . '/' . $post);
-                            $unserpost = unserialize($datas);
-                            {
+                            $unserpost = unserialize($datas); {
                                 ?>
                                 <section class="<?php echo $unserpost->getTitre() ?>">
                                     <a href=" postliste.php?id=<?php echo base64_encode(serialize($unserpost)) ?>"><h1><?php echo $unserpost->getTitre() ?></h1></a>
@@ -93,8 +96,7 @@ and open the template in the editor.
                     foreach ($posts as $post) {
                         if (is_file('./posts/' . $_POST['pseudorec'] . '/' . $post)) {
                             $datas = file_get_contents('./posts/' . $_POST['pseudorec'] . '/' . $post);
-                            $unserpost = unserialize($datas);
-                            {
+                            $unserpost = unserialize($datas); {
                                 ?>
                                 <section class="<?php echo $unserpost->getTitre() ?>">
                                     <a href=" postliste.php?id=<?php echo base64_encode(serialize($unserpost)) ?>"><h1><?php echo $unserpost->getTitre() ?></h1></a>
@@ -128,22 +130,21 @@ and open the template in the editor.
                     foreach ($posts as $post) {
                         if (is_file('./posts/' . $_POST['pseudorec'] . '/' . $post)) {
                             $datas = file_get_contents('./posts/' . $_POST['pseudorec'] . '/' . $post);
-                            $unserpost = unserialize($datas);
-                            {
+                            $unserpost = unserialize($datas); {
                                 ?>
                                 <section class="<?php echo $unserpost->getTitre() ?>">
                                     <a href=" postliste.php?id=<?php echo base64_encode(serialize($unserpost)) ?>"><h1><?php echo $unserpost->getTitre() ?></h1></a>
                                     <h2><?php echo $unserpost->getAuteur() ?></h2>
                                     <p><?php echo $unserpost->getContenu() ?></p>
                                     <p><?php echo $unserpost->getDiscipline() ?></p></section>
-                                <?php
-                            }
-                        }
+                        <?php
                     }
                 }
             }
         }
-        ?>
+    }
+}
+?>
         <a href="index.php">Retour</a>
     </body>
 </html>

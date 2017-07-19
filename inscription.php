@@ -1,3 +1,6 @@
+<?php
+session_start();
+?>
 <!DOCTYPE html>
 <!--
 To change this license header, choose License Headers in Project Properties.
@@ -19,7 +22,6 @@ and open the template in the editor.
         <?php
                 include_once 'header.php';
 
-        session_start();
         ?>
         <section class="formconn form-group">
             <h1>Créez votre compte</h1>

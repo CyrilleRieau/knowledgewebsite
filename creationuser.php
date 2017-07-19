@@ -2,7 +2,7 @@
 
 include_once 'header.php';
 
-session_start();
+
 
 /* $pseudo = htmlspecialchars($_POST['pseudo']);
   $mail = htmlspecialchars($_POST['mail']);
@@ -24,22 +24,7 @@ session_start();
   exit(1);
   }
  */
-$pseudo = $_POST['pseudo'];
-$bio = $_POST['bio'];
-$avatar = $_POST['avatar'];
-$age = $_POST['age'];
-$mail = $_POST['mail'];
-$password = md5(htmlspecialchars($_POST['pass']));
 
-$basededon = new PDO('mysql:host=localhost;dbname=event_db', 'cyrille', 'm0byl3tte');
-$userCre = $db->prepare('INSERT INTO user(pseudo, bio, avatar, age, mail, password) VALUES (:pseudo, :bio, :avatar, :age, :mail, :password)');
-$userCre->bindParam('pseudo', $pseudo, PDO::PARAM_STR, 64);
-$userCre->bindParam('bio', $bio, PDO::PARAM_STR, 64);
-$userCre->bindParam('avatar', $avatar, PDO::PARAM_LOB);
-$userCre->bindParam('age', $age);
-$userCre->bindParam('mail', $mail, PDO::PARAM_STR, 128);
-$userCre->bindParam('password', $password, PDO::PARAM_STR, 1024);
-$userCre->execute();
 
 function createUser() {
     return new User($_POST['pseudo'], $_POST['bio'], $_POST['avatar'], $_POST['age'], $_POST['mail'], md5(htmlspecialchars($_POST['pass'])));

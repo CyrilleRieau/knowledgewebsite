@@ -13,7 +13,7 @@ namespace entities;
  *
  * @author rieau
  */
-include_once'./Comment.php';
+include_once'./entities/Comment.php';
 
 class Post extends Comment{
     protected $discipline;

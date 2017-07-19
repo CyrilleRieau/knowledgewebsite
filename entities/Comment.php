@@ -8,6 +8,8 @@
 
 namespace entities;
 
+use DateTime;
+
 /**
  * Description of Comment
  *

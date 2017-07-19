@@ -1,4 +1,9 @@
 <?php
+//use DateTime;
+use entities\Comment;
+use entities\Post;
+use entities\User;
+//use PDO;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -12,25 +17,19 @@
  * @author rieau
  */
 
-
-session_start();
-include_once 'header.php';
-
-
 //try {
-    $basededon = new PDO('mysql:host=localhost;dbname=event_db', 'cyrille', 'm0byl3tte');
-    //$query = $db->query('SELECT * FROM ??');
-    //echo $query->fetch()['name'].' ';
-    //$chiens = [];
-    /*while ($ligne = $query->fetch()) {
-        $chien = new entities\SmallDoggo($ligne['name'], $ligne['race'], new DateTime(), false);
-        array_push($chiens, $chien);
-    }
-    var_dump($chiens);
-} catch (PDOException $exception) {
-    echo $exception->getMessage();
-}
-*/
+//$query = $db->query('SELECT * FROM ??');
+//echo $query->fetch()['name'].' ';
+//$chiens = [];
+/* while ($ligne = $query->fetch()) {
+  $chien = new entities\SmallDoggo($ligne['name'], $ligne['race'], new DateTime(), false);
+  array_push($chiens, $chien);
+  }
+  var_dump($chiens);
+  } catch (PDOException $exception) {
+  echo $exception->getMessage();
+  }
+ */
 
 class Database {
 
@@ -38,31 +37,24 @@ class Database {
 //Ecrit et lit depuis disque;
 //save user() et load user();
 
+    private $pdo;
 
+    function __construct() {
+        $this->pdo = new PDO('mysql:host=localhost;dbname=event_db', 'cyrille', 'm0byl3tte');
+    }
 
-
-
-    public static function userCreate($user) {
+    public static function userCreate(User $user) {
 //        if (!is_file('./users/users.txt')) { RAjouter tableau ou donnees seront stockees et serialize ensuite après ajout
 
-        if (!is_dir('./users')) {
-            mkdir('./users');
-        } else {
-            $tab = [];
-            if (!is_file('./users/users.bin')) {
-                $file = fopen('./users/users.bin', 'w+');
-                array_push($tab, $user);
-                fwrite($file, serialize($tab));
-                fclose($file);
-            } else {
-                $datas = file_get_contents('./users/users.bin');
-                $useruns = unserialize($datas);
-                $file = fopen('./users/users.bin', 'w+');
-                array_push($useruns, $user);
-                fwrite($file, serialize($useruns));
-                fclose($file);
-            }
-        }
+$db = new Database();
+        $userCre = $db->prepare('INSERT INTO user(pseudo, bio, avatar, age, mail, password) VALUES (:pseudo, :bio, :avatar, :age, :mail, :password)');
+        $userCre->bindParam('pseudo', $user->$pseudo, PDO::PARAM_STR, 64);
+        $userCre->bindParam('bio', $user->$bio, PDO::PARAM_STR, 64);
+        $userCre->bindParam('avatar', $user->$avatar, PDO::PARAM_LOB);
+        $userCre->bindParam('age', $user->$age);
+        $userCre->bindParam('mail', $user->$mail, PDO::PARAM_STR, 128);
+        $userCre->bindParam('password', $user->$password, PDO::PARAM_STR, 1024);
+        $userCre->execute();
     }
 
     /* public static function logUser() {
@@ -118,7 +110,7 @@ class Database {
             $file = fopen('./posts/' . $_SESSION['utilisateur'] . '/' . ($d->format('d-m-Y H:i:s')) . '.bin', 'w+');
             fwrite($file, serialize($post));
             fclose($file);
-            echo '<p>Post créé.</p>';
+            //echo '<p>Post créé.</p>';
         } else {
 
             $d = $post->getDate();
@@ -128,12 +120,12 @@ class Database {
                 $file = fopen('./posts/' . $_SESSION['utilisateur'] . '/' . ($d->format('d-m-Y H:i:s')) . '.bin', 'w+');
                 fwrite($file, serialize($post));
                 fclose($file);
-                echo '<p>Post créé.</p>';
+                //echo '<p>Post créé.</p>';
             }
         }
     }
 
-    public static function recupPost() {
+    public function recupPost() {
         $tab = [];
         if (is_dir('./posts')) {
             $users = scandir('./posts');
@@ -204,18 +196,17 @@ class Database {
 
     public static function modifUser(User $olduser, User $newuser) {
         $users = Database::recupUser();
-                foreach ($users as $key => $user) {
-                    if ($olduser->getPseudo() == $user->getPseudo()) {
-                        array_splice($users, $key);
-                    }
-                }
-                $file = fopen('./users/users.bin', 'w+');
-                array_push($users, $newuser);
-                fwrite($file, serialize($users));
-                fclose($file);
-
+        foreach ($users as $key => $user) {
+            if ($olduser->getPseudo() == $user->getPseudo()) {
+                array_splice($users, $key);
+            }
+        }
+        $file = fopen('./users/users.bin', 'w+');
+        array_push($users, $newuser);
+        fwrite($file, serialize($users));
+        fclose($file);
     }
-    
+
     public static function deleteUser($post) {
         $y = unserialize(base64_decode($post));
         $users = Database::recupUser();
