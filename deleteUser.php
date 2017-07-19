@@ -2,7 +2,7 @@
 include_once 'header.php';
 
 if (isset($_POST['duser'])) {
-    Database::deleteUser($_POST['duser']);
+    $db->deleteUser($_POST['duser']);
     
 }
 header('location:index.php');

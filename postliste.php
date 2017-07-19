@@ -33,7 +33,9 @@ and open the template in the editor.
             <p class="contenu" style="border:2px gainsboro solid"> <?php echo $unserpost->getContenu(); ?> </p>
 
 
-            <?php if ($_SESSION['utilisateur'] == $unserpost->getAuteur()) { ?>
+            <?php 
+            if (isset($_SESSION['utilisateur'])) {
+                    if ($_SESSION['utilisateur'] == $unserpost->getAuteur()) { ?>
                 <form class="form-group" action="deletePost.php" method="POST">
                     <input type="hidden" value="<?php echo base64_encode(serialize($unserpost)) ?>" name="fpost">
                     <input class="btn btn-default" type="submit" value="Supprimer">
@@ -42,7 +44,7 @@ and open the template in the editor.
                     <input type="hidden" value="<?php echo base64_encode(serialize($unserpost)) ?>" name="postmodif">
                     <input class="btn btn-default" type="submit" value="Modifier">
                 </form>
-            <?php } ?>
+            <?php }} ?>
 
             <div class="row">
 
@@ -66,7 +68,7 @@ and open the template in the editor.
                 }
                 ?>
                 <section class="col-sm-8 col-md-8 col-lg-8">
-                    <?php foreach (Database::recupContent($unserpost) as $unsercomt) {
+                    <?php foreach ($db->recupContent($unserpost) as $unsercomt) {
                         ?>
                         <section class="col-sm-4 col-md-4 col-lg-4" id="<?php echo $unsercomt->getDate()->format('d-m-Y H:i:s'); ?>">
                             <?php

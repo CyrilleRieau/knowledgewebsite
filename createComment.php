@@ -27,7 +27,7 @@ function createComment() {
     return new Comment($_POST['commentcom'], new DateTime(), $_SESSION['utilisateur'], 'bloup');
 }
 
-Database::commentCreate(createComment(), unserialize(base64_decode($_POST['post'])));
+$db->commentCreate(createComment(), unserialize(base64_decode($_POST['post'])));
 
 
 //$namecom = $_SESSION['utilisateur'];

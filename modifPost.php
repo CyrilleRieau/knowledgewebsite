@@ -24,7 +24,7 @@
                 $titrepostmod = $postmod->getTitre();
                 $post = new Post($_POST['commentpo'], $datepostmod, $_SESSION['utilisateur'], $_POST['titrepo'], $_POST['disciplinepo'], $_POST['titrepo'], $_POST['tagspo']);
                 
-                Database::modifPost($_SESSION['utilisateur'], $postmod, $post);
+                $db->modifPost($_SESSION['utilisateur'], $postmod, $post);
  
                     header("location:postliste.php");
                     echo 'Vous avez modifié le fichier.';

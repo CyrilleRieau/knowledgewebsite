@@ -40,7 +40,7 @@ and open the template in the editor.
             </nav>
             <div class="row">
                 <?php
-                foreach (Database::recupPost() as $unserpost) {
+                foreach ($db->recupPost() as $unserpost) {
                     ?>
                     <section  class="col-sm-3 col-sm-offset-1 col-md-3 col-md-offset-2 col-lg-4 col-lg-offset-1 bor" id="<?php echo $unserpost->getTitre(); ?>">
                         <h1>
@@ -61,7 +61,7 @@ and open the template in the editor.
                 <a href="logout.php" class ="navbar-brand navbar-right logout">Deconnexion</a></nav>
             <div class="row">
                 <?php
-                foreach (Database::recupPost() as $unserpost) {
+                foreach ($db->recupPost() as $unserpost) {
                     ?>
                     <section class=" col-sm-3 col-sm-offset-1 col-md-3 col-md-offset-3 col-lg-4 col-lg-offset-1 bor" id="<?php echo $unserpost->getTitre(); ?>">
                         <h1>

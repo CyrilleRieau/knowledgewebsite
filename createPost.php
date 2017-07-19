@@ -8,7 +8,7 @@ function createPost() {
             return new Post($_POST['commentp'], new DateTime(), $_SESSION['utilisateur'], $titrehid, $_POST['disciplinep'], $_POST['titrep'], $_POST['tagsp']);
         }
 
-        Database::postCreate(createPost());
+        $db->postCreate(createPost());
         
 
 

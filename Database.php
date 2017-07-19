@@ -11,9 +11,26 @@
  *
  * @author rieau
  */
-include_once 'header.php';
+
 
 session_start();
+include_once 'header.php';
+
+
+//try {
+    $basededon = new PDO('mysql:host=localhost;dbname=event_db', 'cyrille', 'motdepasse');
+    //$query = $db->query('SELECT * FROM ??');
+    //echo $query->fetch()['name'].' ';
+    //$chiens = [];
+    /*while ($ligne = $query->fetch()) {
+        $chien = new entities\SmallDoggo($ligne['name'], $ligne['race'], new DateTime(), false);
+        array_push($chiens, $chien);
+    }
+    var_dump($chiens);
+} catch (PDOException $exception) {
+    echo $exception->getMessage();
+}
+*/
 
 class Database {
 

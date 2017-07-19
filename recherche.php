@@ -39,7 +39,7 @@ and open the template in the editor.
             }
         }
         if ($_POST['disciplinerec'] != "" && $_POST['pseudorec'] == "" && $_POST['tagsrec'] == "") {
-            foreach (Database::recupPost() as $unserpost) {
+            foreach ($db->recupPost() as $unserpost) {
                 if ($_POST['disciplinerec'] === $unserpost->getDiscipline()) {
                     ?>
                     <section class="<?php echo $unserpost->getTitre() ?>">
@@ -52,7 +52,7 @@ and open the template in the editor.
             }
         }
         if ($_POST['tagsrec'] != "" && $_POST['pseudorec'] == "" && $_POST['disciplinerec'] == "") {
-            foreach (Database::recupPost() as $unserpost) {
+            foreach ($db->recupPost() as $unserpost) {
                 if ($_POST['tagsrec'] === $unserpost->getTags()) {
                     ?>
                     <section class="<?php echo $unserpost->getTitre() ?>">
@@ -65,7 +65,7 @@ and open the template in the editor.
             }
         }
         if ($_POST['tagsrec'] != "" && $_POST['pseudorec'] != "" && $_POST['disciplinerec'] == "") {
-            foreach (Database::recupPost() as $unserpost) {
+            foreach ($db->recupPost() as $unserpost) {
                 if ($_POST['tagsrec'] === $unserpost->getTags() && is_dir('./posts/' . $_POST['pseudorec'])) {
                     $posts = scandir('./posts/' . $_POST['pseudorec']);
                     foreach ($posts as $post) {
@@ -87,7 +87,7 @@ and open the template in the editor.
             }
         }
         if ($_POST['tagsrec'] == "" && $_POST['pseudorec'] != "" && $_POST['disciplinerec'] != "") {
-            foreach (Database::recupPost() as $unserpost) {
+            foreach ($db->recupPost() as $unserpost) {
                 if ($_POST['disciplinerec'] === $unserpost->getDiscipline() && is_dir('./posts/' . $_POST['pseudorec'])) {
                     $posts = scandir('./posts/' . $_POST['pseudorec']);
                     foreach ($posts as $post) {
@@ -109,7 +109,7 @@ and open the template in the editor.
             }
         }
         if ($_POST['tagsrec'] == "" && $_POST['pseudorec'] != "" && $_POST['disciplinerec'] == "") {
-            foreach (Database::recupPost() as $unserpost) {
+            foreach ($db->recupPost() as $unserpost) {
                 if ($_POST['tagsrec'] === $unserpost->getTags() && $_POST['disciplinerec'] === $unserpost->getDiscipline()) {
                     ?>
                     <section class="<?php echo $unserpost->getTitre() ?>">
@@ -122,7 +122,7 @@ and open the template in the editor.
             }
         }
         if ($_POST['tagsrec'] != "" && $_POST['pseudorec'] != "" && $_POST['disciplinerec'] != "") {
-            foreach (Database::recupPost() as $unserpost) {
+            foreach ($db->recupPost() as $unserpost) {
                 if ($_POST['disciplinerec'] == $unserpost->getDiscipline() && $_POST['tagsrec'] == $unserpost->getTags() && is_dir('./posts/' . $_POST['pseudorec'])) {
                     $posts = scandir('./posts/' . $_POST['pseudorec']);
                     foreach ($posts as $post) {

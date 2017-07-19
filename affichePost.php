@@ -17,7 +17,10 @@ and open the template in the editor.
         ?>
         <div class="row">
             <?php
-            foreach (Database::recupPost() as $unserpost) {
+            
+            $basededon = new PDO('mysql:host=localhost;dbname=event_db', 'cyrille', 'motdepasse');
+            
+            foreach ($db->recupPost() as $unserpost) {
                 ?>
                 <section class="col-sm-4 col-sm-offset-2 col-md-3 col-md-offset-3 col-lg-4 col-lg-offset-2" id="<?php echo $unserpost->getTitre(); ?>"><h1><a href="postliste.php?id=<?php echo base64_encode(serialize($unserpost)) ?>"><?php echo $unserpost->getTitre(); ?></a>
                      </h1>

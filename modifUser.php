@@ -29,7 +29,7 @@ and open the template in the editor.
                 $ageusmod = $usermodif->getAge();
                 $usermodi = new User($_POST['pseudomod'], $_POST['biomod'], $_POST['avatarmod'], $_POST['agemod'], $_POST['mailmod'], md5(htmlspecialchars($_POST['mdpmod'])));
 
-                Database::modifUser($usermodif, $usermodi);
+                $db->modifUser($usermodif, $usermodi);
 
 
                 echo 'Vous avez modifié l\'utilisateur.</br>';

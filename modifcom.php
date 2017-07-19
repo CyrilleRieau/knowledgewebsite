@@ -20,7 +20,7 @@
             $e = $z->getDate();
            
             $com = new Comment($_POST['commentcom'], $d, $_SESSION['utilisateur'], 'bloup');
-            Database::modifCom($com, $y, $z);
+            $db->modifCom($com, $y, $z);
             /*if (is_file('./comment/' . ($e->format('d-m-Y H:i:s')) . '/' . ($d->format('d-m-Y H:i:s'))).'.bin') {
                 $file = fopen('./comment/' . ($e->format('d-m-Y H:i:s')) . '/' . ($d->format('d-m-Y H:i:s')).'.bin', 'w');
                 fwrite($file, serialize($com));

@@ -16,7 +16,7 @@ and open the template in the editor.
         ?>
         <div class="row">
             <?php
-            foreach (Database::recupUser() as $user) {
+            foreach ($db->recupUser() as $user) {
                 if ($_GET['id'] == $user->getPseudo()) {
                     ?>
                     <section class="col-sm-4 col-sm-offset-2 col-md-3 col-md-offset-3 col-lg-4 col-lg-offset-2" id="<?php echo $user->getPseudo(); ?>">

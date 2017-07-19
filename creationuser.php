@@ -24,11 +24,13 @@ session_start();
         exit(1);
     }
 */
+  $basededon = new PDO('mysql:host=localhost;dbname=event_db', 'cyrille', 'motdepasse');
+
     function createUser() {
         return new User($_POST['pseudo'], $_POST['bio'], $_POST['avatar'], $_POST['age'], $_POST['mail'], md5(htmlspecialchars($_POST['pass'])));
     }
 
-    Database::userCreate(createUser());
+    $db->userCreate(createUser());
 
 
     if (!isset($_POST['pseudo']) || !isset($_POST['pass']) || !isset($_POST['mail'])) {
@@ -43,7 +45,7 @@ session_start();
     $comdp = md5(htmlspecialchars($_POST['pass']));
     $comail = $_POST['mail'];
 
-    foreach (Database::recupUser() as $user) {
+    foreach ($db->recupUser() as $user) {
         if (($user->getPseudo() == $coname || $user->getMail() == $comail) && $user->getPassword() == $comdp) {
             $_SESSION['utilisateur'] = $coname;
         }
