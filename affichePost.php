@@ -18,7 +18,7 @@ and open the template in the editor.
         <div class="row">
             <?php
             
-            $basededon = new PDO('mysql:host=localhost;dbname=event_db', 'cyrille', 'motdepasse');
+            $basededon = new PDO('mysql:host=localhost;dbname=event_db', 'cyrille', 'm0byl3tte');
             
             foreach ($db->recupPost() as $unserpost) {
                 ?>

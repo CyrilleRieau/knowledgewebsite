@@ -18,7 +18,7 @@ include_once 'header.php';
 
 
 //try {
-    $basededon = new PDO('mysql:host=localhost;dbname=event_db', 'cyrille', 'motdepasse');
+    $basededon = new PDO('mysql:host=localhost;dbname=event_db', 'cyrille', 'm0byl3tte');
     //$query = $db->query('SELECT * FROM ??');
     //echo $query->fetch()['name'].' ';
     //$chiens = [];
