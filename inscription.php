@@ -21,8 +21,21 @@ and open the template in the editor.
     <body>
         <?php
                 include_once 'header.php';
+                if (!isset($_SESSION['utilisateur'])) {
+            ?>
+        <nav class="navbar navbar-inverse row">
+                <a class="navbar-brand col-sm-4 col-sm-offset-2 col-md-3 col-md-offset-3 col-lg-4 col-lg-offset-2 inscription" href="inscription.php"><span class="glyphicon glyphicon-cog" aria-hidden="true"></span> Inscription</a>
+                <a href="connexion.php" class="navbar-brand connexion col-sm-4 col-sm-offset-2 col-md-3 col-md-offset-3 col-lg-4 col-lg-offset-2" ><span class="glyphicon glyphicon-user" aria-hidden="true"></span> Connexion</a>
+            </nav>
+        <?php
+        }
+        if (isset($_SESSION['utilisateur'])) { 
+            ?>
+        <nav class="navbar navbar-inverse row" ><p class="navbar-brand" style="color:white;">Bonjour <a href="afficheUser.php?id=<?php echo $_SESSION['utilisateur'] ?>"><?php echo $_SESSION['utilisateur'] ?></a>, vous êtes bien connecté.</p>
+                <a href="logout.php" class ="navbar-brand navbar-right logout">Deconnexion</a></nav>
+        <?php    } ?>
 
-        ?>
+        
         <section class="formconn form-group">
             <h1>Créez votre compte</h1>
             <form action="creationuser.php"  method="POST">

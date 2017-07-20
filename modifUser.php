@@ -18,6 +18,19 @@ and open the template in the editor.
         <div class="col-sm-4 col-sm-offset-2 col-md-3 col-md-offset-3 col-lg-4 col-lg-offset-2">
             <?php
             include_once 'header.php';
+            if (!isset($_SESSION['utilisateur'])) {
+            ?>
+        <nav class="navbar navbar-inverse row">
+                <a class="navbar-brand col-sm-4 col-sm-offset-2 col-md-3 col-md-offset-3 col-lg-4 col-lg-offset-2 inscription" href="inscription.php"><span class="glyphicon glyphicon-cog" aria-hidden="true"></span> Inscription</a>
+                <a href="connexion.php" class="navbar-brand connexion col-sm-4 col-sm-offset-2 col-md-3 col-md-offset-3 col-lg-4 col-lg-offset-2" ><span class="glyphicon glyphicon-user" aria-hidden="true"></span> Connexion</a>
+            </nav>
+        <?php
+        }
+        if (isset($_SESSION['utilisateur'])) { 
+            ?>
+        <nav class="navbar navbar-inverse row" ><p class="navbar-brand" style="color:white;">Bonjour <a href="afficheUser.php?id=<?php echo $_SESSION['utilisateur'] ?>"><?php echo $_SESSION['utilisateur'] ?></a>, vous êtes bien connecté.</p>
+                <a href="logout.php" class ="navbar-brand navbar-right logout">Deconnexion</a></nav>
+        <?php    } 
 
 
             if (isset($_POST['usemod']) && isset($_POST['pseudomod']) && isset($_POST['mailmod']) && isset($_POST['biomod']) && isset($_POST['mdpmod']) && isset($_POST['agemod']) && isset($_POST['avatarmod'])) {

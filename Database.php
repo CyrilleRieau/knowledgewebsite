@@ -40,7 +40,7 @@ class Database {
     private $pdo;
 
     function __construct() {
-        $this->pdo = new PDO('mysql:host=localhost;dbname=event_db', 'cyrille', 'm0byl3tte');
+        $this->pdo = new PDO('mysql:host=localhost;dbname=event_db', 'cyrille', 'mdp');
     }
 
     public static function userCreate(User $user) {
