@@ -1,5 +1,5 @@
 <?php
-
+session_start();
 //Création du logout
 include_once 'header.php';
 

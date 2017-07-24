@@ -1,5 +1,7 @@
 <?php
 session_start();
+
+include_once 'header.php';
 ?>
 <!DOCTYPE html>
 <!--
@@ -34,10 +36,9 @@ and open the template in the editor.
     <body class="container-fluid">      
 
         <?php
-        include_once 'header.php';
         if (!isset($_SESSION['utilisateur'])) {
             ?>
-        <nav class="navbar navbar-inverse row">
+            <nav class="navbar navbar-inverse row">
                 <a class="navbar-brand col-sm-4 col-sm-offset-2 col-md-3 col-md-offset-3 col-lg-4 col-lg-offset-2 inscription" href="inscription.php"><span class="glyphicon glyphicon-cog" aria-hidden="true"></span> Inscription</a>
                 <a href="connexion.php" class="navbar-brand connexion col-sm-4 col-sm-offset-2 col-md-3 col-md-offset-3 col-lg-4 col-lg-offset-2" ><span class="glyphicon glyphicon-user" aria-hidden="true"></span> Connexion</a>
             </nav>
@@ -58,9 +59,9 @@ and open the template in the editor.
             ?>
         </div>
         <?php
-        if (isset($_SESSION['utilisateur'])) { 
+        if (isset($_SESSION['utilisateur'])) {
             ?>
-        <nav class="navbar navbar-inverse row" ><p class="navbar-brand" style="color:white;">Bonjour <a href="afficheUser.php?id=<?php echo $_SESSION['utilisateur'] ?>"><?php echo $_SESSION['utilisateur'] ?></a>, vous êtes bien connecté.</p>
+            <nav class="navbar navbar-inverse row" ><p class="navbar-brand" style="color:white;">Bonjour <a href="afficheUser.php?id=<?php echo $_SESSION['utilisateur'] ?>"><?php echo $_SESSION['utilisateur'] ?></a>, vous êtes bien connecté.</p>
                 <a href="logout.php" class ="navbar-brand navbar-right logout">Deconnexion</a></nav>
             <div class="row">
                 <?php
@@ -75,8 +76,8 @@ and open the template in the editor.
 
                     </section><?php
                 }
-            ?>
-                    
+                ?>
+
             </div>
             <div class="row">
                 <div class="col-md-4 col-md-offset-2 form-group"><h2>Créez un post </h2>    
@@ -85,7 +86,7 @@ and open the template in the editor.
                         <input class="form-control" id="disciplinep" type="text" name="disciplinep" /><br>
                         <label for="titrep">Titre :</label><br>
                         <input class="form-control" id="titrep" type="text" name="titrep" /><br>
-                        <input id="titrephid" type="hidden" name="titrephid" /><br>
+                        <!--<input id="titrephid" type="hidden" name="titrephid" /><br>-->
                         <label for="tagsp">Mots-clés :</label><br>
                         <input class="form-control" id="tagsp" type="text" name="tagsp" /><br>
                         <label for="commentp">Contenu :</label><br>
@@ -107,29 +108,29 @@ and open the template in the editor.
                 </div>
             </div>
             <?php
-            }
-            ?>
-            </body>
-   <!-- <script>
-        window.onload = function () {
-            let inscript = document.querySelector('.inscription');
-            let connex = document.querySelector('.connexion');
-            let formconn = document.querySelector('.formconn');
-            let forminsc = document.querySelector('.forminsc');
-            inscript.addEventListener('click', function () {
-                if (formconn.style.display === 'none' || formconn.style.display === '') {
-                    formconn.style.display = 'block';
-                } else {
-                    formconn.style.display = 'none';
-                }
-            });
-            connex.addEventListener('click', function () {
-                if (forminsc.style.display === 'none' || forminsc.style.display === '') {
-                    forminsc.style.display = 'block';
-                } else {
-                    forminsc.style.display = 'none';
-                }
-            });
-        };
-    </script> -->
+        }
+        ?>
+    </body>
+<!-- <script>
+window.onload = function () {
+    let inscript = document.querySelector('.inscription');
+    let connex = document.querySelector('.connexion');
+    let formconn = document.querySelector('.formconn');
+    let forminsc = document.querySelector('.forminsc');
+    inscript.addEventListener('click', function () {
+        if (formconn.style.display === 'none' || formconn.style.display === '') {
+            formconn.style.display = 'block';
+        } else {
+            formconn.style.display = 'none';
+        }
+    });
+    connex.addEventListener('click', function () {
+        if (forminsc.style.display === 'none' || forminsc.style.display === '') {
+            forminsc.style.display = 'block';
+        } else {
+            forminsc.style.display = 'none';
+        }
+    });
+};
+</script> -->
 </html>

@@ -1,6 +1,10 @@
 <?php
 
+session_start();
 include_once 'header.php';
+
+use entities\User;
+
 
 
 

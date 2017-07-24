@@ -18,7 +18,7 @@ and open the template in the editor.
             }
             </style>
     </head>
-    <body>
+    <body class="container-fluid"> 
         <?php
                 include_once 'header.php';
                 if (!isset($_SESSION['utilisateur'])) {

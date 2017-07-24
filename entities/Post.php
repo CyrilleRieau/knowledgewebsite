@@ -15,18 +15,29 @@ namespace entities;
  */
 include_once'./entities/Comment.php';
 
-class Post extends Comment{
+class Post extends Comment {
+
     protected $discipline;
     protected $titre;
     protected $tags;
-    
-    public function __construct($contenu, DateTime $date, $auteur, $id, $discipline, $titre, $tags) {
-        parent::__construct($contenu, $date, $auteur, $id);
+    protected $id;
+
+    public function __construct(string $contenu, $date, string $auteur, string $discipline, string $titre, string $tags, int $id=NULL) {
+        parent::__construct($contenu, $date, $auteur);
         $this->discipline = $discipline;
         $this->titre = $titre;
-    $this->tags = $tags;
+        $this->tags = $tags;
+        $this->id = $id;
     }
-    function getDiscipline() {
+    function getId() {
+        return $this->id;
+    }
+
+    function setId($id) {
+        $this->id = $id;
+    }
+
+        function getDiscipline() {
         return $this->discipline;
     }
 
@@ -49,6 +60,5 @@ class Post extends Comment{
     function setTags($tags) {
         $this->tags = $tags;
     }
-
 
 }

@@ -21,16 +21,18 @@ class Comment {
     protected $contenu;
     protected $date;
     protected $auteur;
-    protected $id;
     protected $upvotes = 0;
     protected $downvotes = 0;
+    protected $id;
 
-    function __construct($contenu, DateTime $date, $auteur, $id) {
+    function __construct(string $contenu, $date, string $auteur, int $id = NULL) {
         $this->contenu = $contenu;
         $this->date = $date;
         $this->auteur = $auteur;
         $this->id = $id;
     }
+    
+    
 function getContenu(){
     return $this->contenu;
 }
