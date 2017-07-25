@@ -2,13 +2,13 @@
 
 //use DateTime;
 
-/*function myLoader($className) {
-    $class = str_replace('\\', '/', $className);
-    require($class . '.php');
-}
+/* function myLoader($className) {
+  $class = str_replace('\\', '/', $className);
+  require($class . '.php');
+  }
 
-spl_autoload_register('myLoader');
-*/
+  spl_autoload_register('myLoader');
+ */
 use entities\Comment;
 use entities\Post;
 use entities\User;
@@ -80,11 +80,16 @@ class Database {
       }
      */
 
-    public function commentCreate(Comment $comment): bool {
-        $comCre = $this->pdo->prepare('INSERT INTO comment(contenu, date, auteur) VALUES (:contenu, :date, :auteur)');
+    public function commentCreate(Comment $comment, Post $post, User $user): bool {
+        $comCre = $this->pdo->prepare('INSERT INTO comment(contenu, date, auteur, upvotes, downvotes, post_id, user_id) VALUES (:contenu, :date, :auteur, :upvotes, :downvotes, :post_id, :user_id)');
         $comCre->bindValue('contenu', $comment->getContenu(), PDO::PARAM_STR);
-        $comCre->bindValue('date', $comment->getDate(), PDO::PARAM_STR);
+        $comCre->bindValue('date', $comment->getDate()->format('Y-m-d'), PDO::PARAM_STR);
         $comCre->bindValue('auteur', $comment->getAuteur(), PDO::PARAM_STR);
+        $comCre->bindValue('upvotes', $comment->getUpvotes(), PDO::PARAM_STR);
+        $comCre->bindValue('downvotes', $comment->getDownvotes(), PDO::PARAM_STR);
+        $comCre->bindValue('user_id', $user->getId(), PDO::PARAM_STR);
+        $comCre->bindValue('post_id', $post->getId(), PDO::PARAM_STR);
+
         if ($comCre->execute()) {
             $comment->setId(intval($this->pdo->lastInsertId()));
             return true;
@@ -123,14 +128,17 @@ class Database {
       } */
 
 
-    public function postCreate(Post $post): bool {
-        $postCre = $this->pdo->prepare('INSERT INTO post(contenu, date, auteur, discipline, titre, tags) VALUES (:contenu, :date, :auteur, :discipline, :titre, :tags)');
+    public function postCreate(Post $post, User $user): bool {
+        $postCre = $this->pdo->prepare('INSERT INTO post(contenu, date, auteur, discipline, titre, tags, upvotes, downvotes, user_id) VALUES (:contenu, :date, :auteur, :discipline, :titre, :tags, :upvotes, :downvotes, :user_id)');
         $postCre->bindValue('contenu', $post->getContenu(), PDO::PARAM_STR);
         $postCre->bindValue('date', $post->getDate()->format('Y-m-d'), PDO::PARAM_STR);
         $postCre->bindValue('auteur', $post->getAuteur(), PDO::PARAM_STR);
         $postCre->bindValue('discipline', $post->getDiscipline(), PDO::PARAM_STR);
         $postCre->bindValue('titre', $post->getTitre(), PDO::PARAM_STR);
         $postCre->bindValue('tags', $post->getTags(), PDO::PARAM_STR);
+        $postCre->bindValue('upvotes', $post->getUpvotes(), PDO::PARAM_STR);
+        $postCre->bindValue('downvotes', $post->getDownvotes(), PDO::PARAM_STR);
+        $postCre->bindValue('user_id', $user->getId(), PDO::PARAM_STR);
         if ($postCre->execute()) {
             $post->setId(intval($this->pdo->lastInsertId()));
             return true;
@@ -168,7 +176,7 @@ class Database {
         $recupPost = $this->pdo->query('SELECT * FROM post');
         $posts = [];
         while ($ligne = $recupPost->fetch()) {
-            $post = new Post($ligne['contenu'], $ligne['date'], $ligne['auteur'], $ligne['discipline'], $ligne['titre'], $ligne['tags']);
+            $post = new Post($ligne['contenu'], $ligne['date'], $ligne['auteur'], $ligne['discipline'], $ligne['titre'], $ligne['tags'], $ligne['upvotes'], $ligne['downvotes'], $ligne['user_id'], $ligne['id']);
             $posts[] = $post;
         }
         return $posts;
@@ -200,7 +208,7 @@ class Database {
         $recupUser = $this->pdo->query('SELECT * FROM user');
         $users = [];
         while ($ligne = $recupUser->fetch()) {
-            $user = new User($ligne['pseudo'], $ligne['bio'], $ligne['avatar'], $ligne['age'], $ligne['mail'], $ligne['password']);
+            $user = new User($ligne['pseudo'], $ligne['bio'], $ligne['avatar'], $ligne['age'], $ligne['mail'], $ligne['password'], $ligne['id']);
             $users[] = $user;
         }
         return $users;
@@ -218,7 +226,7 @@ class Database {
         $recupComment = $this->pdo->query('SELECT * FROM comment');
         $comments = [];
         while ($ligne = $recupComment->fetch()) {
-            $comment = new Comment($ligne['contenu'], $ligne['date'], $ligne['auteur']);
+            $comment = new Comment($ligne['contenu'], $ligne['date'], $ligne['auteur'], $ligne['upvotes'], $ligne['downvotes'], $ligne['post_id'], $ligne['user_id'], $ligne['id']);
             $comments[] = $comment;
         }
         return $comments;
@@ -314,42 +322,42 @@ class Database {
       }
      */
 
-    public function deleteUser(User $user):bool {
-        $deleteUser=$this->pdo->prepare('DELETE FROM user WHERE id=:id');
+    public function deleteUser(User $user): bool {
+        $deleteUser = $this->pdo->prepare('DELETE FROM user WHERE id=:id');
         $deleteUser->bindValue('id', $user->getId(), PDO::PARAM_INT);
         return $deleteUser->execute();
     }
-        
-        /*$y = unserialize(base64_decode($post));
-    }
-    }
-        $users = Database::recupUser();
 
-        foreach ($users as $key => $user) {
-            if ($y->getPseudo() == $user->getPseudo()) {
-                array_splice($users, $key);
-            }
-        }
-        $file = fopen('./users/users.bin', 'w+');
-        fwrite($file, serialize($users));
-        fclose($file);
+    /* $y = unserialize(base64_decode($post));
+      }
+      }
+      $users = Database::recupUser();
 
-        $_SESSION = [];
-        session_destroy();
-    }*/
+      foreach ($users as $key => $user) {
+      if ($y->getPseudo() == $user->getPseudo()) {
+      array_splice($users, $key);
+      }
+      }
+      $file = fopen('./users/users.bin', 'w+');
+      fwrite($file, serialize($users));
+      fclose($file);
 
-    public function deletePost(Post $post):bool {
-        $deletePost=$this->pdo->prepare('DELETE FROM post WHERE id=:id');
+      $_SESSION = [];
+      session_destroy();
+      } */
+
+    public function deletePost(Post $post): bool {
+        $deletePost = $this->pdo->prepare('DELETE FROM post WHERE id=:id');
         $deletePost->bindValue('id', $post->getId(), PDO::PARAM_INT);
         return $deletePost->execute();
     }
-    
-    public function deleteComment(Comment $comment):bool {
-        $deleteComment=$this->pdo->prepare('DELETE FROM comment WHERE id=:id');
+
+    public function deleteComment(Comment $comment): bool {
+        $deleteComment = $this->pdo->prepare('DELETE FROM comment WHERE id=:id');
         $deleteComment->bindValue('id', $comment->getId(), PDO::PARAM_INT);
         return $deleteComment->execute();
     }
-    
+
     /*  public static function logout() {
       if (isset($_SESSION['utilisateur'])) {
       $_SESSION = [];

@@ -2,6 +2,9 @@
 session_start();
 
 include_once 'header.php';
+use entities\User;
+use entities\Post;
+use entities\Comment;
 ?>
 <!DOCTYPE html>
 <!--

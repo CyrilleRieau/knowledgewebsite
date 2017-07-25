@@ -23,12 +23,18 @@ class Comment {
     protected $auteur;
     protected $upvotes = 0;
     protected $downvotes = 0;
+    protected $post_id;
+    protected $user_id;
     protected $id;
 
-    function __construct(string $contenu, $date, string $auteur, int $id = NULL) {
+    function __construct(string $contenu, $date, string $auteur, int $upvotes = NULL, int $downvotes= NULL, $post_id, $user_id, int $id = NULL) {
         $this->contenu = $contenu;
         $this->date = $date;
         $this->auteur = $auteur;
+        $this->upvotes = $upvotes;
+        $this->downvotes = $downvotes;
+        $this->post_id = $post_id;
+        $this->user_id = $user_id;
         $this->id = $id;
     }
     
@@ -77,6 +83,22 @@ function getContenu(){
 
     function setId($id) {
         $this->id = $id;
+    }
+
+    function getPost_id() {
+        return $this->post_id;
+    }
+
+    function getUser_id() {
+        return $this->user_id;
+    }
+
+    function setPost_id($post_id) {
+        $this->post_id = $post_id;
+    }
+
+    function setUser_id($user_id) {
+        $this->user_id = $user_id;
     }
 
 
