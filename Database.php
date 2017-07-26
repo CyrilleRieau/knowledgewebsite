@@ -221,7 +221,7 @@ class Database {
       }
       } */
 
-    public function recupComment() {
+    public function recupComment(Post $post) {
 
         $recupComment = $this->pdo->query('SELECT * FROM comment');
         $comments = [];

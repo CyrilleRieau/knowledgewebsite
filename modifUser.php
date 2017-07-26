@@ -1,5 +1,9 @@
 <?php
 session_start();
+include_once 'header.php';
+use entities\User;
+use entities\Post;
+use entities\Comment;
 ?>
 <!DOCTYPE html>
 <!--
@@ -17,7 +21,7 @@ and open the template in the editor.
     <body class="container-fluid">
         <div class="col-sm-4 col-sm-offset-2 col-md-3 col-md-offset-3 col-lg-4 col-lg-offset-2">
             <?php
-            include_once 'header.php';
+            
             if (!isset($_SESSION['utilisateur'])) {
             ?>
         <nav class="navbar navbar-inverse row">
@@ -54,9 +58,9 @@ and open the template in the editor.
                 <?php
             }
 
-            if (isset($_GET['usermod']) && !isset($_POST['pseudomod'])) {
-                $moduser = unserialize(base64_decode($_GET['usermod']));
-                if (is_file('./users/users.bin')) {
+            if (isset($_POST['usermod']) && !isset($_POST['pseudomod'])) {
+                $moduser = unserialize(base64_decode($_POST['usermod']));
+                
                     ?>
                 <p>* : Champs obligatoires</p>
                     <form class="form-group " action="" method="POST">
@@ -77,7 +81,7 @@ and open the template in the editor.
                     </form>    
                     <?php
                 }
-            }
+            
             ?>
 
             <a href = "afficheUser.php?id=<?php echo $moduser->getPseudo() ?>">Retour</a>   

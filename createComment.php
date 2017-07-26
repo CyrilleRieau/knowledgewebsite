@@ -1,4 +1,3 @@
-
 <?php
 session_start();
 include_once 'header.php';
@@ -14,11 +13,11 @@ if (!isset($_SESSION['utilisateur']) && !isset($_POST['commentcom'])) {
 }
 if ($_SESSION['utilisateur'] == "" || $_POST['commentcom'] == "") {
     ?><p>Commentaire non complet.<p>
+
         <a href="affichePost.php">Retour</a>  <?php
         exit(1);
     }
-
-
+    
     foreach ($db->recupUser() as $user) {
 
         if ($user->getPseudo() == $_SESSION['utilisateur']) {
@@ -37,7 +36,9 @@ if ($_SESSION['utilisateur'] == "" || $_POST['commentcom'] == "") {
 
 //$namecom = $_SESSION['utilisateur'];
                         $postof = $_POST['post'];
+                        
                         $commcom = $_POST['commentcom'];
+                        
 //if (is_file('./comment/'.$_POST['pseudocom'].'/'.($d->format('d-m-Y H:i:s')) /*Problème ici*/.'.bin')) {
 //  $content = file_get_contents('./posts/'.$_POST['pseudop'].'/'.($d->format('d-m-Y H:i:s')) /*Problème ici*/.'.bin');
 // $unsercontent = unserialize($content);
@@ -45,7 +46,7 @@ if ($_SESSION['utilisateur'] == "" || $_POST['commentcom'] == "") {
 //   if ($post->getPseudo() == $namepo && $post->getDiscipline() == $discipo && $post->getTitre() == $titpo && $post->getTags() == $tagpo && $post->getContenu() == $commpo) {
 //          $_SESSION['utilisateur'] = $namecom;
                         $_SESSION['commcom'] = $commcom;
-
+                        
 // }
 //}
 //}
@@ -55,7 +56,8 @@ if ($_SESSION['utilisateur'] == "" || $_POST['commentcom'] == "") {
             }
         }
     }
-    ?>
-<a href="affichePost.php">Retour</a>
-<!--header("location:index.php");-->
     
+    header("location:postliste.php?id='" . base64_encode(serialize($post)) . '"');
+    ?>    <a href="affichePost.php">Retour</a>
+    
+

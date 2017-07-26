@@ -19,10 +19,8 @@ and open the template in the editor.
         <title>Affichage Post</title>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
         <style>
-            .contenu {
-                width: 70%;
-                height : 100px;
-                overflow : scroll;
+            .comm {
+                border : 1px solid grey; 
             }
         </style>
     </head>
@@ -47,9 +45,9 @@ and open the template in the editor.
 
 
         if (isset($_GET['id'])) {
-            $id= unserialize(base64_decode($_GET['id']));
+            $id = unserialize(base64_decode($_GET['id']));
             foreach ($db->recupPost() as $post) {
-                //if ($post->getId() == $id->getId()) {
+                if ($post->getId() == $id->getId()) {
                     ?>
                     <h1> <?php echo $post->getTitre(); ?> </h1>
                     <p> Auteur : <?php echo $post->getAuteur(); ?> </p>
@@ -70,7 +68,8 @@ and open the template in the editor.
                                 <input type="hidden" value="<?php echo base64_encode(serialize($post)) ?>" name="postmodif">
                                 <input class="btn btn-default" type="submit" value="Modifier">
                             </form>
-                        <?php }
+                            <?php
+                        }
                     }
                     ?>
 
@@ -96,30 +95,34 @@ and open the template in the editor.
                         }
                         ?>
                         <section class="col-sm-8 col-md-8 col-lg-8">
-                            <?php foreach ($db->recupComment($post) as $comment) {
+
+                            <?php
+                            foreach ($db->recupComment($post) as $comment) {
+                                if ($comment->getPost_id() == $post->getId()) {
                                 ?>
-                                <section class="col-sm-4 col-md-4 col-lg-4" id="<?php echo $comment->getDate()->format('d-m-Y H:i:s'); ?>">
+                                <section class="comm col-sm-4 col-md-4 col-lg-4" id="<?php echo $comment->getDate(); ?>">
                                     <?php
-                                    //     if ($comments === $post->getDate()->format('d-m-Y H:i:s')) {
-                                    ?>
+                                    
+                                        ?>
 
-                                    <p > <?php echo $comment->getContenu(); ?> </p>
-                                    <p> <?php echo $comment->getAuteur(); ?> </p>
-                                    <p> <?php echo $comment->getDate()->format('d-m-Y H:i:s'); ?></p>
+                                        <p > <?php echo $comment->getContenu(); ?> </p>
+                                        <p> <?php echo $comment->getAuteur(); ?> </p>
+                                        <p> <?php echo $comment->getDate(); ?></p>
 
-                <?php if ($_SESSION['utilisateur'] == $comment->getAuteur()) { ?>
-                                        <form class="form-group" action="deleteComment.php" method="POST">
-                                            <input type="hidden" value="<?php echo base64_encode(serialize($comment)) ?>" name="cpost">
-                                            <input type="hidden" value="<?php echo base64_encode(serialize($post)) ?>" name="comfpost">
-                                            <input class="btn btn-default" type="submit" value="Supprimer">
-                                        </form>
+                                        <?php if ($_SESSION['utilisateur'] == $comment->getAuteur()) { ?>
+                                            <form class="form-group" action="deleteComment.php" method="POST">
+                                                <input type="hidden" value="<?php echo base64_encode(serialize($comment)) ?>" name="cpost">
+                                                <input type="hidden" value="<?php echo base64_encode(serialize($post)) ?>" name="comfpost">
+                                                <input class="btn btn-default" type="submit" value="Supprimer">
+                                            </form>
 
-                                        <form class="form-group" action="modifcom.php" method="GET">
-                                            <input type="hidden" value="<?php echo base64_encode(serialize($comment)) ?>" name="cpost">
-                                            <input type="hidden" value="<?php echo base64_encode(serialize($post)) ?>" name="comfpost">
-                                            <input class="btn btn-default" type="submit" value="Modifier">
-                                        </form>
-                                        <?php
+                                            <form class="form-group" action="modifcom.php" method="GET">
+                                                <input type="hidden" value="<?php echo base64_encode(serialize($comment)) ?>" name="cpost">
+                                                <input type="hidden" value="<?php echo base64_encode(serialize($post)) ?>" name="comfpost">
+                                                <input class="btn btn-default" type="submit" value="Modifier">
+                                            </form>
+                                            <?php
+                                        }
                                     }
                                     ?>
                                 </section>
@@ -131,11 +134,11 @@ and open the template in the editor.
                     <?php
                 }
             }
-       // }
+        }
 
-        /*if (!isset($_GET['id'])) {
-            header('location:affichePost.php');
-        }*/
+        /* if (!isset($_GET['id'])) {
+          header('location:affichePost.php');
+          } */
         ?>
 
         <a href="affichePost.php">Retour</a>             

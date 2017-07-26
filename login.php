@@ -1,5 +1,11 @@
 <?php
+session_start();
 include_once 'header.php';
+
+use entities\User;
+use entities\Comment;
+use entities\Post;
+
 if (!isset($_POST['coname']) || !isset($_POST['comdp'])) {
     echo 'Utilisateur inexistant.';
     exit(1);
@@ -21,8 +27,8 @@ foreach ($db->recupUser() as $user) {
         header('location: index.php');
     }
 }
-echo 'Les identifiants ne sont pas corrects.';
-echo '<a href="index.php">Retour</a>';
+//echo 'Les identifiants ne sont pas corrects.';
+//echo '<a href="index.php">Retour</a>';
 /* $file = 'auth.json';
   $json = file_get_contents($file);
   $obj = json_decode($json);

@@ -1,5 +1,10 @@
 <?php
 session_start();
+include_once 'header.php';
+
+use entities\User;
+use entities\Post;
+use entities\Comment;
 ?>
 <!DOCTYPE html>
 <!--
@@ -47,7 +52,7 @@ and open the template in the editor.
                             <input type="hidden" value="<?php echo base64_encode(serialize($user)) ?>" name="duser">
                             <input class="btn btn-default" type="submit" value="Supprimer">
                         </form>
-                        <form class="form-group" action="modifUser.php" method="GET">
+                        <form class="form-group" action="modifUser.php" method="POST">
                             <input type="hidden" value="<?php echo base64_encode(serialize($user)) ?>" name="usermod">
                             <input class="btn btn-default" type="submit" value="Modifier">
                         </form>

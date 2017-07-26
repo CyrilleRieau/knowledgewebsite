@@ -47,14 +47,14 @@ and open the template in the editor.
             </nav>
             <div class="row">
                 <?php
-                foreach ($db->recupPost() as $unserpost) {
+                foreach ($db->recupPost() as $post) {
                     ?>
-                    <section  class="col-sm-3 col-sm-offset-1 col-md-3 col-md-offset-2 col-lg-4 col-lg-offset-1 bor" id="<?php echo $unserpost->getTitre(); ?>">
+                    <section  class="col-sm-3 col-sm-offset-1 col-md-3 col-md-offset-2 col-lg-4 col-lg-offset-1 bor" id="<?php echo $post->getTitre(); ?>">
                         <h1>
-                            <a href=" postliste.php?id=<?php echo base64_encode(serialize($unserpost)) ?>"><?php echo $unserpost->getTitre(); ?></a>
+                            <a href="postliste.php?id=<?php echo base64_encode(serialize($post)) ?>"><?php echo $post->getTitre(); ?></a>
                         </h1>
-                        <p> Auteur : <?php echo $unserpost->getAuteur(); ?> </p>
-                        <p> Tags : <?php echo $unserpost->getTags(); ?> </p>
+                        <p> Auteur : <?php echo $post->getAuteur(); ?> </p>
+                        <p> Tags : <?php echo $post->getTags(); ?> </p>
                     </section>
                     <?php
                 }
@@ -68,14 +68,14 @@ and open the template in the editor.
                 <a href="logout.php" class ="navbar-brand navbar-right logout">Deconnexion</a></nav>
             <div class="row">
                 <?php
-                foreach ($db->recupPost() as $unserpost) {
+                foreach ($db->recupPost() as $post) {
                     ?>
-                    <section class=" col-sm-3 col-sm-offset-1 col-md-3 col-md-offset-3 col-lg-4 col-lg-offset-1 bor" id="<?php echo $unserpost->getTitre(); ?>">
+                    <section class=" col-sm-3 col-sm-offset-1 col-md-3 col-md-offset-3 col-lg-4 col-lg-offset-1 bor" id="<?php echo $post->getTitre(); ?>">
                         <h1>
-                            <a href=" postliste.php?id=<?php echo base64_encode(serialize($unserpost)) ?>"><?php echo $unserpost->getTitre(); ?></a>
+                            <a href=" postliste.php?id=<?php echo base64_encode(serialize($post)) ?>"><?php echo $post->getTitre(); ?></a>
                         </h1>
-                        <p> <?php echo $unserpost->getAuteur(); ?> </p>
-                        <p> <?php echo $unserpost->getTags(); ?> </p>
+                        <p> <?php echo $post->getAuteur(); ?> </p>
+                        <p> <?php echo $post->getTags(); ?> </p>
 
                     </section><?php
                 }
